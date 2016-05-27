@@ -231,7 +231,7 @@ from prplclaim x,t_policyno y
 where x.policyno = y.policyno
 and x.canceldate is null
 ----------------------------------
-and x.endcasedate is   null  ------未结案
+and x.endcasedate is  not null  ------已结案
 --and z.registno = x.registno 
 --and z.reportdate between '20150715' and '20150823'
 into temp t_claim with no log;
@@ -330,7 +330,7 @@ select x.*,
 0.00::decimal(20,2) A050921,
 0.00::decimal(20,2) A050928,
 0.00::decimal(20,2) A050929,
-'未结案'    endcasefalg  ---结案状态
+'已结案'    endcasefalg  ---结案状态
 from chengbao_qibao  x
 where 1=1 into temp chengbao_list with no log;
 
