@@ -1,9 +1,9 @@
 :<<block
 dbaccess  -e gd4400car3gdb <<!
 select a.comcode,a.proposalno,a.policyno, a.sumpremium, 
-case when '2015-05-31'>=a.enddate 
+case when today>=a.enddate 
 then a.sumpremium 
-else a.sumpremium*('2015-05-31'-a.startdate+1)/(a.enddate-a.startdate+1)
+else a.sumpremium*(today-a.startdate+1)/(a.enddate-a.startdate+1)
 end premium_yz , 
 ---截止提数时间已赚签单保费
 e.agenttype, a.agentcode, 
@@ -60,7 +60,7 @@ e.agenttype, a.agentcode,
 from prpcmain a,prpcitem_car  b,
      outer prpcmain_car d, outer gd4400dms3gdb:prpdagent e
 where 1=1
-and a.startdate between '20150101' and '2015-05-31'
+and a.startdate between '20160101' and today
 and a.proposalno=b.proposalno
 and length(a.policyno) = 22
 and a.comcode[1,4] = '4418' --清远
@@ -114,21 +114,21 @@ merge into chengbao_qibao a using t_itemkind b on a.proposalno = b.proposalno an
 
 
 -- --计算个险别已赚保费 ---
-update chengbao_qibao set B050100=B050100*('2015-05-31'-startdate+1)/(enddate-startdate+1) where '2015-05-31' < enddate;--机动车交通事故强制责任保险
-update chengbao_qibao set B050200=B050200*('2015-05-31'-startdate+1)/(enddate-startdate+1) where '2015-05-31' < enddate;--机动车损失保险
-update chengbao_qibao set B050500=B050500*('2015-05-31'-startdate+1)/(enddate-startdate+1) where '2015-05-31' < enddate;--盗抢险
-update chengbao_qibao set B050600=B050600*('2015-05-31'-startdate+1)/(enddate-startdate+1) where '2015-05-31' < enddate;--第三者责任保险
-update chengbao_qibao set B050701=B050701*('2015-05-31'-startdate+1)/(enddate-startdate+1) where '2015-05-31' < enddate;--车上人员责任险（司机）
-update chengbao_qibao set B050702=B050702*('2015-05-31'-startdate+1)/(enddate-startdate+1) where '2015-05-31' < enddate;--车上人员责任险（乘客）
-update chengbao_qibao set B050911=B050911*('2015-05-31'-startdate+1)/(enddate-startdate+1) where '2015-05-31' < enddate;--不计免赔率（车损险）
-update chengbao_qibao set B050912=B050912*('2015-05-31'-startdate+1)/(enddate-startdate+1) where '2015-05-31' < enddate;--不计免赔率（三者险）
-update chengbao_qibao set B050921=B050921*('2015-05-31'-startdate+1)/(enddate-startdate+1) where '2015-05-31' < enddate;--不计免赔率（机动车盗抢险）
-update chengbao_qibao set B050928=B050928*('2015-05-31'-startdate+1)/(enddate-startdate+1) where '2015-05-31' < enddate;--不计免赔率（车上人员责任险（司机））
-update chengbao_qibao set B050929=B050929*('2015-05-31'-startdate+1)/(enddate-startdate+1) where '2015-05-31' < enddate;--不计免赔率（车上人员责任险（乘客））
+update chengbao_qibao set B050100=B050100*(today-startdate+1)/(enddate-startdate+1) where today < enddate;--机动车交通事故强制责任保险
+update chengbao_qibao set B050200=B050200*(today-startdate+1)/(enddate-startdate+1) where today < enddate;--机动车损失保险
+update chengbao_qibao set B050500=B050500*(today-startdate+1)/(enddate-startdate+1) where today < enddate;--盗抢险
+update chengbao_qibao set B050600=B050600*(today-startdate+1)/(enddate-startdate+1) where today < enddate;--第三者责任保险
+update chengbao_qibao set B050701=B050701*(today-startdate+1)/(enddate-startdate+1) where today < enddate;--车上人员责任险（司机）
+update chengbao_qibao set B050702=B050702*(today-startdate+1)/(enddate-startdate+1) where today < enddate;--车上人员责任险（乘客）
+update chengbao_qibao set B050911=B050911*(today-startdate+1)/(enddate-startdate+1) where today < enddate;--不计免赔率（车损险）
+update chengbao_qibao set B050912=B050912*(today-startdate+1)/(enddate-startdate+1) where today < enddate;--不计免赔率（三者险）
+update chengbao_qibao set B050921=B050921*(today-startdate+1)/(enddate-startdate+1) where today < enddate;--不计免赔率（机动车盗抢险）
+update chengbao_qibao set B050928=B050928*(today-startdate+1)/(enddate-startdate+1) where today < enddate;--不计免赔率（车上人员责任险（司机））
+update chengbao_qibao set B050929=B050929*(today-startdate+1)/(enddate-startdate+1) where today < enddate;--不计免赔率（车上人员责任险（乘客））
 
 
 
-unload to 'chengbao_qibao.unl'
+unload to 'chengbao_qibao2.unl'
 select * from chengbao_qibao where 1=1;
 
 !
@@ -204,7 +204,7 @@ from   gd4400car3gdb@gd_4400_cb_bcv1:prpcmain a,
 where 1 = 2
 into temp chengbao_qibao with no log;
 
-load from 'chengbao_qibao.unl'
+load from 'chengbao_qibao2.unl'
 insert into chengbao_qibao;
 
 
@@ -233,7 +233,7 @@ and x.canceldate is null
 ----------------------------------
 and x.endcasedate is  not null  ------已结案
 --and z.registno = x.registno 
-and z.reportdate between '20150101' and '20150531'
+-- and z.reportdate between '20150101' and '20150531'
 into temp t_claim with no log;
 
 update t_claim set renshangflag = '0',
@@ -763,12 +763,12 @@ where flag1 = 1 and ((flag2+flag3+flag4) = 1 or (flag2+flag3+flag4) = 0);
 
 
 
-unload to 'renshang_yj.unl' delimiter '	'	 
+unload to 'renshang_yj2.unl' delimiter '	'	 
 select * from chengbao_result2 where 1=1
 ;
 
 
-unload to 'renshang_yj.unl_orl' 
+unload to 'renshang_yj2.unl_orl' 
 select * from chengbao_result2 where 1=1
 ;
 

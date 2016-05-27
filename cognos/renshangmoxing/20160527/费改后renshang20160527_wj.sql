@@ -1,9 +1,9 @@
-:<<block
+#:<<block
 dbaccess  -e gd4400car3gdb <<!
 select a.comcode,a.proposalno,a.policyno, a.sumpremium, 
-case when '2015-05-31'>=a.enddate 
+case when today>=a.enddate 
 then a.sumpremium 
-else a.sumpremium*('2015-05-31'-a.startdate+1)/(a.enddate-a.startdate+1)
+else a.sumpremium*(today-a.startdate+1)/(a.enddate-a.startdate+1)
 end premium_yz , 
 ---截止提数时间已赚签单保费
 e.agenttype, a.agentcode, 
@@ -60,7 +60,7 @@ e.agenttype, a.agentcode,
 from prpcmain a,prpcitem_car  b,
      outer prpcmain_car d, outer gd4400dms3gdb:prpdagent e
 where 1=1
-and a.startdate between '20150101' and '2015-05-31'
+and a.startdate between '20160101' and today
 and a.proposalno=b.proposalno
 and length(a.policyno) = 22
 and a.comcode[1,4] = '4418' --清远
@@ -114,25 +114,25 @@ merge into chengbao_qibao a using t_itemkind b on a.proposalno = b.proposalno an
 
 
 -- --计算个险别已赚保费 ---
-update chengbao_qibao set B050100=B050100*('2015-05-31'-startdate+1)/(enddate-startdate+1) where '2015-05-31' < enddate;--机动车交通事故强制责任保险
-update chengbao_qibao set B050200=B050200*('2015-05-31'-startdate+1)/(enddate-startdate+1) where '2015-05-31' < enddate;--机动车损失保险
-update chengbao_qibao set B050500=B050500*('2015-05-31'-startdate+1)/(enddate-startdate+1) where '2015-05-31' < enddate;--盗抢险
-update chengbao_qibao set B050600=B050600*('2015-05-31'-startdate+1)/(enddate-startdate+1) where '2015-05-31' < enddate;--第三者责任保险
-update chengbao_qibao set B050701=B050701*('2015-05-31'-startdate+1)/(enddate-startdate+1) where '2015-05-31' < enddate;--车上人员责任险（司机）
-update chengbao_qibao set B050702=B050702*('2015-05-31'-startdate+1)/(enddate-startdate+1) where '2015-05-31' < enddate;--车上人员责任险（乘客）
-update chengbao_qibao set B050911=B050911*('2015-05-31'-startdate+1)/(enddate-startdate+1) where '2015-05-31' < enddate;--不计免赔率（车损险）
-update chengbao_qibao set B050912=B050912*('2015-05-31'-startdate+1)/(enddate-startdate+1) where '2015-05-31' < enddate;--不计免赔率（三者险）
-update chengbao_qibao set B050921=B050921*('2015-05-31'-startdate+1)/(enddate-startdate+1) where '2015-05-31' < enddate;--不计免赔率（机动车盗抢险）
-update chengbao_qibao set B050928=B050928*('2015-05-31'-startdate+1)/(enddate-startdate+1) where '2015-05-31' < enddate;--不计免赔率（车上人员责任险（司机））
-update chengbao_qibao set B050929=B050929*('2015-05-31'-startdate+1)/(enddate-startdate+1) where '2015-05-31' < enddate;--不计免赔率（车上人员责任险（乘客））
+update chengbao_qibao set B050100=B050100*(today-startdate+1)/(enddate-startdate+1) where today < enddate;--机动车交通事故强制责任保险
+update chengbao_qibao set B050200=B050200*(today-startdate+1)/(enddate-startdate+1) where today < enddate;--机动车损失保险
+update chengbao_qibao set B050500=B050500*(today-startdate+1)/(enddate-startdate+1) where today < enddate;--盗抢险
+update chengbao_qibao set B050600=B050600*(today-startdate+1)/(enddate-startdate+1) where today < enddate;--第三者责任保险
+update chengbao_qibao set B050701=B050701*(today-startdate+1)/(enddate-startdate+1) where today < enddate;--车上人员责任险（司机）
+update chengbao_qibao set B050702=B050702*(today-startdate+1)/(enddate-startdate+1) where today < enddate;--车上人员责任险（乘客）
+update chengbao_qibao set B050911=B050911*(today-startdate+1)/(enddate-startdate+1) where today < enddate;--不计免赔率（车损险）
+update chengbao_qibao set B050912=B050912*(today-startdate+1)/(enddate-startdate+1) where today < enddate;--不计免赔率（三者险）
+update chengbao_qibao set B050921=B050921*(today-startdate+1)/(enddate-startdate+1) where today < enddate;--不计免赔率（机动车盗抢险）
+update chengbao_qibao set B050928=B050928*(today-startdate+1)/(enddate-startdate+1) where today < enddate;--不计免赔率（车上人员责任险（司机））
+update chengbao_qibao set B050929=B050929*(today-startdate+1)/(enddate-startdate+1) where today < enddate;--不计免赔率（车上人员责任险（乘客））
 
 
 
-unload to 'chengbao_qibao.unl'
+unload to 'chengbao_qibao2.unl'
 select * from chengbao_qibao where 1=1;
 
 !
-block
+#block
 
 
 dbaccess -e $_LPDB <<!
@@ -140,7 +140,7 @@ select a.comcode,     --归属机构
        a.proposalno,
        a.policyno,    --保单号
        a.sumpremium,  --应交保费
-	   a.sumpremium premium_yz ,--已赚保费
+       a.sumpremium premium_yz ,--已赚保费
        e.agenttype,   --渠道类型
        a.agentcode,   --渠道代码
        b.clausetype,  --条款产品
@@ -204,7 +204,7 @@ from   gd4400car3gdb@gd_4400_cb_bcv1:prpcmain a,
 where 1 = 2
 into temp chengbao_qibao with no log;
 
-load from 'chengbao_qibao.unl'
+load from 'chengbao_qibao2.unl'
 insert into chengbao_qibao;
 
 
@@ -230,10 +230,9 @@ from prplclaim x,t_policyno y
 --,prplregist z -------------增加出险日期判断
 where x.policyno = y.policyno
 and x.canceldate is null
-----------------------------------
-and x.endcasedate is  not null  ------已结案
---and z.registno = x.registno 
-and z.reportdate between '20150101' and '20150531'
+and x.endcasedate is   null  ------未结案
+-- and z.registno = x.registno 
+-- and z.reportdate between '20150101' and '20150531'
 into temp t_claim with no log;
 
 update t_claim set renshangflag = '0',
@@ -330,7 +329,7 @@ select x.*,
 0.00::decimal(20,2) A050921,
 0.00::decimal(20,2) A050928,
 0.00::decimal(20,2) A050929,
-'已结案'    endcasefalg  ---结案状态
+'未结案'    endcasefalg  ---结案状态
 from chengbao_qibao  x
 where 1=1 into temp chengbao_list with no log;
 
@@ -397,7 +396,7 @@ drop table t_lianshu_renshang;
 drop table t1;
 --------
 
-unload to '人伤分析_claim_yi决.unl'
+unload to '人伤分析_claim_未决.unl'
 select * from t_claim where 1=1;
 
 -------汇总死亡数量-----
@@ -747,28 +746,28 @@ where flag1 = 1 and ((flag2+flag3+flag4) = 1 or (flag2+flag3+flag4) = 0);
 -- ----------------------未决承保度量取0--------------------
 
 -- --计算个险别已赚保费 ---
---update chengbao_result2 set B050100=B050100*0 where 1 = 1;--机动车交通事故强制责任保险
---update chengbao_result2 set B050200=B050200*0 where 1 = 1;--机动车损失保险
---update chengbao_result2 set B050500=B050500*0 where 1 = 1;--盗抢险
---update chengbao_result2 set B050600=B050600*0 where 1 = 1;--第三者责任保险
---update chengbao_result2 set B050701=B050701*0 where 1 = 1;--车上人员责任险（司机）
---update chengbao_result2 set B050702=B050702*0 where 1 = 1;--车上人员责任险（乘客）
---update chengbao_result2 set B050911=B050911*0 where 1 = 1;--不计免赔率（车损险）
---update chengbao_result2 set B050912=B050912*0 where 1 = 1;--不计免赔率（三者险）
---update chengbao_result2 set B050921=B050921*0 where 1 = 1;--不计免赔率（机动车盗抢险）
---update chengbao_result2 set B050928=B050928*0 where 1 = 1;--不计免赔率（车上人员责任险（司机））
---update chengbao_result2 set B050929=B050929*0 where 1 = 1;--不计免赔率（车上人员责任险（乘客））
+update chengbao_result2 set B050100=B050100*0 where 1 = 1;--机动车交通事故强制责任保险
+update chengbao_result2 set B050200=B050200*0 where 1 = 1;--机动车损失保险
+update chengbao_result2 set B050500=B050500*0 where 1 = 1;--盗抢险
+update chengbao_result2 set B050600=B050600*0 where 1 = 1;--第三者责任保险
+update chengbao_result2 set B050701=B050701*0 where 1 = 1;--车上人员责任险（司机）
+update chengbao_result2 set B050702=B050702*0 where 1 = 1;--车上人员责任险（乘客）
+update chengbao_result2 set B050911=B050911*0 where 1 = 1;--不计免赔率（车损险）
+update chengbao_result2 set B050912=B050912*0 where 1 = 1;--不计免赔率（三者险）
+update chengbao_result2 set B050921=B050921*0 where 1 = 1;--不计免赔率（机动车盗抢险）
+update chengbao_result2 set B050928=B050928*0 where 1 = 1;--不计免赔率（车上人员责任险（司机））
+update chengbao_result2 set B050929=B050929*0 where 1 = 1;--不计免赔率（车上人员责任险（乘客））
 
---update chengbao_result2 set sumpremium = 0.00 ,premium_yz = 0.00 where 1=1;
+update chengbao_result2 set sumpremium = 0.00 ,premium_yz = 0.00 where 1=1;
 
 
 
-unload to 'renshang_yj.unl' delimiter '	'	 
+unload to 'renshang_wj2.unl' delimiter '	'	 
 select * from chengbao_result2 where 1=1
 ;
 
 
-unload to 'renshang_yj.unl_orl' 
+unload to 'renshang_wj2.unl_orl' 
 select * from chengbao_result2 where 1=1
 ;
 
@@ -817,6 +816,7 @@ case when B050944 = 0.00 then 0.00 else A050944/B050944 end as AB050944
 
 #sed '1i\
 #机构代码	投保单号	保单号	应交保费	已赚保费	渠道类型	渠道代码	产品条款	车辆种类	使用年限	初登日期	起保日期	终保日期	车牌	号牌底色	发动机号	车架号	归属人员	经办人员	业务来源	保单种类	核保方式	签单日期	保险金额	承保险种	合同号	车牌种类	使用性质	行驶里程	车型代码	车型名称	新车购置价	实际价值	载客数量	座位数	载重	吨位数	排量	排量分类	送修码	项目代码	商业交强标志	电销业务类型标记	新续传标志	CB机动车交通事故强制责任保险	CB机动车损失保险	CB车身划痕损失险	CB火灾、爆炸、自燃损失险条款	CB玻璃单独破碎险	CB指定修理厂特约条款	CB新增加设备损失保险	CB发动机特别损失险	CB车辆自燃损失保险	CB起重、装卸、挖掘车辆损失扩展条款	CB车辆盗抢保险	CB第三者责任保险	CB车上人员责任险	CB车上乘客责任险	CB车上货物责任险	CB不计免赔率(车辆损失险)	CB不计免赔率(三者险)	CB不计免赔率(机动车盗抢险)	CB不计免赔率(车身划痕损失险)	CB不计免赔率(新增加设备损失保险)	CB不计免赔率(发动机特别损失险)	CB不计免赔率（车上货物责任险）	CB不计免赔率(车上人员责任险(司机))	CB不计免赔率(车上人员责任险(乘客))	CB教练车特约条款(车损险)	CB教练车特约条款(三者险)	CB教练车特约条款(车上人员责任险(乘客))	验车人	立案数量	人伤案件数量	死亡案件数量	伤残案件数量	总赔付金额	LP机动车交通事故强制责任保险	LP机动车损失保险	LP车身划痕损失险	LP火灾、爆炸、自燃损失险条款	LP玻璃单独破碎险	LP指定修理厂特约条款	LP新增加设备损失保险	LP发动机特别损失险	LP车辆自燃损失保险	LP起重、装卸、挖掘车辆损失扩展条款	LP车辆盗抢保险	LP第三者责任保险	LP车上人员责任险	LP车上乘客责任险	LP车上货物责任险	LP不计免赔率(车辆损失险)	LP不计免赔率(三者险)	LP不计免赔率(机动车盗抢险)	LP不计免赔率(车身划痕损失险)	LP不计免赔率(新增加设备损失保险)	LP不计免赔率(发动机特别损失险)	LP不计免赔率（车上货物责任险）	LP不计免赔率(车上人员责任险(司机))	LP不计免赔率(车上人员责任险(乘客))	LP教练车特约条款(车损险)	LP教练车特约条款(三者险)	LP教练车特约条款(车上人员责任险(乘客))	"结案标志	"	"LP交强险--财产	"	LP交强险(死亡伤残)	LP交强险(医疗费)	是否人伤案件	是否死亡案件	是否伤残案件'  
+
 
 
 
