@@ -1,72 +1,72 @@
-:<<block
+#:<<block
 dbaccess  -e gd4400car3gdb <<!
 select a.comcode,a.proposalno,a.policyno, a.sumpremium, 
-case when today>=a.enddate 
+case when '2015-05-31'>=a.enddate 
 then a.sumpremium 
-else a.sumpremium*(today-a.startdate+1)/(a.enddate-a.startdate+1)
+else a.sumpremium*('2015-05-31'-a.startdate+1)/(a.enddate-a.startdate+1)
 end premium_yz , 
----½ØÖ¹ÌáÊıÊ±¼äÒÑ×¬Ç©µ¥±£·Ñ
+---æˆªæ­¢ææ•°æ—¶é—´å·²èµšç­¾å•ä¿è´¹
 e.agenttype, a.agentcode, 
- b.clausetype,  b.carkindcode, b.useyears,  b.enrolldate,  --³õµÇÈÕÆÚ
-       a.startdate,   --Æğ±£ÈÕÆÚ
-       a.enddate,     --ÖÕ±£ÈÕÆÚ
-       b.licenseno,   --ºÅÅÆºÅÂë
-       b.licensecolorcode, --ºÅÅÆµ×É«
+ b.clausetype,  b.carkindcode, b.useyears,  b.enrolldate,  --åˆç™»æ—¥æœŸ
+       a.startdate,   --èµ·ä¿æ—¥æœŸ
+       a.enddate,     --ç»ˆä¿æ—¥æœŸ
+       b.licenseno,   --å·ç‰Œå·ç 
+       b.licensecolorcode, --å·ç‰Œåº•è‰²
        b.engineno,    
        b.frameno,
-       handler1code,     --¹éÊôÈËÔ±
-       handlercode,      --¾­°ìÈËÔ±
-       businessnature,   --ÒµÎñÀ´Ô´
-       case when length(contractno) = 22 then '³µ¶Ó'
-            else 'µ¥³µ' end as policytype,         --±£µ¥ÖÖÀà
-       case when underwriteflag = '3' then '×Ô¶¯'
-            else 'ÈË¹¤' end as uwtype,             --ºË±£·½Ê½
-       operatedate,   --Ç©µ¥ÈÕÆÚ
-       sumamount,     --±£ÏÕ½ğ¶î
-       a.riskcode,    --³Ğ±£ÏÕÖÖ
-       a.contractno,  --ÍÅµ¥ºÅ/ºÏÍ¬ºÅ
-       licensetype,   --ºÅÅÆÖÖÀà
+       handler1code,     --å½’å±äººå‘˜
+       handlercode,      --ç»åŠäººå‘˜
+       businessnature,   --ä¸šåŠ¡æ¥æº
+       case when length(contractno) = 22 then 'è½¦é˜Ÿ'
+            else 'å•è½¦' end as policytype,         --ä¿å•ç§ç±»
+       case when underwriteflag = '3' then 'è‡ªåŠ¨'
+            else 'äººå·¥' end as uwtype,             --æ ¸ä¿æ–¹å¼
+       operatedate,   --ç­¾å•æ—¥æœŸ
+       sumamount,     --ä¿é™©é‡‘é¢
+       a.riskcode,    --æ‰¿ä¿é™©ç§
+       a.contractno,  --å›¢å•å·/åˆåŒå·
+       licensetype,   --å·ç‰Œç§ç±»
        --vinno,
-       usenaturecode, --Ê¹ÓÃĞÔÖÊ
+       usenaturecode, --ä½¿ç”¨æ€§è´¨
        runmiles,
-       modelcode,     --³µĞÍ´úÂë
-       brandname,     --³µĞÍÃû³Æ
-       purchaseprice, --ĞÂ³µ¹ºÖÃ¼Û
-       actualvalue,   --Êµ¼Ê¼ÛÖµ
-       seatcount,     --ÔØ¿ÍÊı
-       toncount,      --ÔØÖÊÁ¿
-       exhaustscale,  --ÅÅÁ¿
-       runareaname,   --ĞĞÊ»ÇøÓò
-       MonopolyCode,  --ËÍĞŞÂë
-       projectcode,   --ÏîÄ¿´úÂë
-       case when a.riskcode[1,2]='DZ' then 'ci'  else 'bi' end biciflag,  --½»Ç¿ÉÌÒµ±ê¼Ç
-       b.flag[5] dxflag,   --µçÏúÒµÎñÀàĞÍ±ê¼ÇÎ»
+       modelcode,     --è½¦å‹ä»£ç 
+       brandname,     --è½¦å‹åç§°
+       purchaseprice, --æ–°è½¦è´­ç½®ä»·
+       actualvalue,   --å®é™…ä»·å€¼
+       seatcount,     --è½½å®¢æ•°
+       toncount,      --è½½è´¨é‡
+       exhaustscale,  --æ’é‡
+       runareaname,   --è¡Œé©¶åŒºåŸŸ
+       MonopolyCode,  --é€ä¿®ç 
+       projectcode,   --é¡¹ç›®ä»£ç 
+       case when a.riskcode[1,2]='DZ' then 'ci'  else 'bi' end biciflag,  --äº¤å¼ºå•†ä¸šæ ‡è®°
+       b.flag[5] dxflag,   --ç”µé”€ä¸šåŠ¡ç±»å‹æ ‡è®°ä½
 
-0.00::decimal(20,2) B050100,--»ú¶¯³µ½»Í¨ÊÂ¹ÊÇ¿ÖÆÔğÈÎ±£ÏÕ
-0.00::decimal(20,3) B050200,--»ú¶¯³µËğÊ§±£ÏÕ
-0.00::decimal(20,4) B050500,--µÁÇÀÏÕ
-0.00::decimal(20,5) B050600,--µÚÈıÕßÔğÈÎ±£ÏÕ
-0.00::decimal(20,6) B050701,--³µÉÏÈËÔ±ÔğÈÎÏÕ£¨Ë¾»ú£©
-0.00::decimal(20,7) B050702,--³µÉÏÈËÔ±ÔğÈÎÏÕ£¨³Ë¿Í£©
-0.00::decimal(20,8) B050911,--²»¼ÆÃâÅâÂÊ£¨³µËğÏÕ£©
-0.00::decimal(20,9) B050912,--²»¼ÆÃâÅâÂÊ£¨ÈıÕßÏÕ£©
-0.00::decimal(20,10) B050921,--²»¼ÆÃâÅâÂÊ£¨»ú¶¯³µµÁÇÀÏÕ£©
-0.00::decimal(20,11) B050928,--²»¼ÆÃâÅâÂÊ£¨³µÉÏÈËÔ±ÔğÈÎÏÕ£¨Ë¾»ú£©£©
-0.00::decimal(20,12) B050929,--²»¼ÆÃâÅâÂÊ£¨³µÉÏÈËÔ±ÔğÈÎÏÕ£¨³Ë¿Í£©£©  
+0.00::decimal(20,2) B050100,--æœºåŠ¨è½¦äº¤é€šäº‹æ•…å¼ºåˆ¶è´£ä»»ä¿é™©
+0.00::decimal(20,3) B050200,--æœºåŠ¨è½¦æŸå¤±ä¿é™©
+0.00::decimal(20,4) B050500,--ç›—æŠ¢é™©
+0.00::decimal(20,5) B050600,--ç¬¬ä¸‰è€…è´£ä»»ä¿é™©
+0.00::decimal(20,6) B050701,--è½¦ä¸Šäººå‘˜è´£ä»»é™©ï¼ˆå¸æœºï¼‰
+0.00::decimal(20,7) B050702,--è½¦ä¸Šäººå‘˜è´£ä»»é™©ï¼ˆä¹˜å®¢ï¼‰
+0.00::decimal(20,8) B050911,--ä¸è®¡å…èµ”ç‡ï¼ˆè½¦æŸé™©ï¼‰
+0.00::decimal(20,9) B050912,--ä¸è®¡å…èµ”ç‡ï¼ˆä¸‰è€…é™©ï¼‰
+0.00::decimal(20,10) B050921,--ä¸è®¡å…èµ”ç‡ï¼ˆæœºåŠ¨è½¦ç›—æŠ¢é™©ï¼‰
+0.00::decimal(20,11) B050928,--ä¸è®¡å…èµ”ç‡ï¼ˆè½¦ä¸Šäººå‘˜è´£ä»»é™©ï¼ˆå¸æœºï¼‰ï¼‰
+0.00::decimal(20,12) B050929,--ä¸è®¡å…èµ”ç‡ï¼ˆè½¦ä¸Šäººå‘˜è´£ä»»é™©ï¼ˆä¹˜å®¢ï¼‰ï¼‰  
 
-       case when d.CarChecker="" then "Ã»ÓĞÌî"
+       case when d.CarChecker="" then "æ²¡æœ‰å¡«"
             else d.CarChecker
        end CarChecker
 from prpcmain a,prpcitem_car  b,
      outer prpcmain_car d, outer gd4400dms3gdb:prpdagent e
 where 1=1
-and a.startdate between '20160101' and today
+and a.startdate between '20150101' and '2015-05-31'
 and a.proposalno=b.proposalno
 and length(a.policyno) = 22
-and a.comcode[1,4] = '4418' --ÇåÔ¶
+and a.comcode[1,4] = '4418' --æ¸…è¿œ
 and a.policyno[1]='P'
-and a.othflag[4]<>"1"           --·Ç×¢Ïú
-and a.othflag[4]<>"2"           --·ÇÉ¾³ı
+and a.othflag[4]<>"1"           --éæ³¨é”€
+and a.othflag[4]<>"2"           --éåˆ é™¤
 and b.UseNatureCode='120' 
 and a.proposalno=d.proposalno
 and a.agentcode=e.agentcode
@@ -99,32 +99,32 @@ update statistics for table t_itemkind;
 
 
 
-merge into chengbao_qibao a using t_itemkind b on a.proposalno = b.proposalno and b.kindcode = '050100' when matched then update set a.B050100= b.premium;--»ú¶¯³µ½»Í¨ÊÂ¹ÊÇ¿ÖÆÔğÈÎ±£ÏÕ
-merge into chengbao_qibao a using t_itemkind b on a.proposalno = b.proposalno and b.kindcode = '050200' when matched then update set a.B050200= b.premium;--»ú¶¯³µËğÊ§±£ÏÕ
-merge into chengbao_qibao a using t_itemkind b on a.proposalno = b.proposalno and b.kindcode = '050500' when matched then update set a.B050500= b.premium;--µÁÇÀÏÕ
-merge into chengbao_qibao a using t_itemkind b on a.proposalno = b.proposalno and b.kindcode = '050600' when matched then update set a.B050600= b.premium;--µÚÈıÕßÔğÈÎ±£ÏÕ
-merge into chengbao_qibao a using t_itemkind b on a.proposalno = b.proposalno and b.kindcode = '050701' when matched then update set a.B050701= b.premium;--³µÉÏÈËÔ±ÔğÈÎÏÕ£¨Ë¾»ú£©
-merge into chengbao_qibao a using t_itemkind b on a.proposalno = b.proposalno and b.kindcode = '050702' when matched then update set a.B050702= b.premium;--³µÉÏÈËÔ±ÔğÈÎÏÕ£¨³Ë¿Í£©
-merge into chengbao_qibao a using t_itemkind b on a.proposalno = b.proposalno and b.kindcode = '050911' when matched then update set a.B050911= b.premium;--²»¼ÆÃâÅâÂÊ£¨³µËğÏÕ£©
-merge into chengbao_qibao a using t_itemkind b on a.proposalno = b.proposalno and b.kindcode = '050912' when matched then update set a.B050912= b.premium;--²»¼ÆÃâÅâÂÊ£¨ÈıÕßÏÕ£©
-merge into chengbao_qibao a using t_itemkind b on a.proposalno = b.proposalno and b.kindcode = '050921' when matched then update set a.B050921= b.premium;--²»¼ÆÃâÅâÂÊ£¨»ú¶¯³µµÁÇÀÏÕ£©
-merge into chengbao_qibao a using t_itemkind b on a.proposalno = b.proposalno and b.kindcode = '050928' when matched then update set a.B050928= b.premium;--²»¼ÆÃâÅâÂÊ£¨³µÉÏÈËÔ±ÔğÈÎÏÕ£¨Ë¾»ú£©£©
-merge into chengbao_qibao a using t_itemkind b on a.proposalno = b.proposalno and b.kindcode = '050929' when matched then update set a.B050929= b.premium;--²»¼ÆÃâÅâÂÊ£¨³µÉÏÈËÔ±ÔğÈÎÏÕ£¨³Ë¿Í£©£©
+merge into chengbao_qibao a using t_itemkind b on a.proposalno = b.proposalno and b.kindcode = '050100' when matched then update set a.B050100= b.premium;--æœºåŠ¨è½¦äº¤é€šäº‹æ•…å¼ºåˆ¶è´£ä»»ä¿é™©
+merge into chengbao_qibao a using t_itemkind b on a.proposalno = b.proposalno and b.kindcode = '050200' when matched then update set a.B050200= b.premium;--æœºåŠ¨è½¦æŸå¤±ä¿é™©
+merge into chengbao_qibao a using t_itemkind b on a.proposalno = b.proposalno and b.kindcode = '050500' when matched then update set a.B050500= b.premium;--ç›—æŠ¢é™©
+merge into chengbao_qibao a using t_itemkind b on a.proposalno = b.proposalno and b.kindcode = '050600' when matched then update set a.B050600= b.premium;--ç¬¬ä¸‰è€…è´£ä»»ä¿é™©
+merge into chengbao_qibao a using t_itemkind b on a.proposalno = b.proposalno and b.kindcode = '050701' when matched then update set a.B050701= b.premium;--è½¦ä¸Šäººå‘˜è´£ä»»é™©ï¼ˆå¸æœºï¼‰
+merge into chengbao_qibao a using t_itemkind b on a.proposalno = b.proposalno and b.kindcode = '050702' when matched then update set a.B050702= b.premium;--è½¦ä¸Šäººå‘˜è´£ä»»é™©ï¼ˆä¹˜å®¢ï¼‰
+merge into chengbao_qibao a using t_itemkind b on a.proposalno = b.proposalno and b.kindcode = '050911' when matched then update set a.B050911= b.premium;--ä¸è®¡å…èµ”ç‡ï¼ˆè½¦æŸé™©ï¼‰
+merge into chengbao_qibao a using t_itemkind b on a.proposalno = b.proposalno and b.kindcode = '050912' when matched then update set a.B050912= b.premium;--ä¸è®¡å…èµ”ç‡ï¼ˆä¸‰è€…é™©ï¼‰
+merge into chengbao_qibao a using t_itemkind b on a.proposalno = b.proposalno and b.kindcode = '050921' when matched then update set a.B050921= b.premium;--ä¸è®¡å…èµ”ç‡ï¼ˆæœºåŠ¨è½¦ç›—æŠ¢é™©ï¼‰
+merge into chengbao_qibao a using t_itemkind b on a.proposalno = b.proposalno and b.kindcode = '050928' when matched then update set a.B050928= b.premium;--ä¸è®¡å…èµ”ç‡ï¼ˆè½¦ä¸Šäººå‘˜è´£ä»»é™©ï¼ˆå¸æœºï¼‰ï¼‰
+merge into chengbao_qibao a using t_itemkind b on a.proposalno = b.proposalno and b.kindcode = '050929' when matched then update set a.B050929= b.premium;--ä¸è®¡å…èµ”ç‡ï¼ˆè½¦ä¸Šäººå‘˜è´£ä»»é™©ï¼ˆä¹˜å®¢ï¼‰ï¼‰
 
 
 
--- --¼ÆËã¸öÏÕ±ğÒÑ×¬±£·Ñ ---
-update chengbao_qibao set B050100=B050100*(today-startdate+1)/(enddate-startdate+1) where today < enddate;--»ú¶¯³µ½»Í¨ÊÂ¹ÊÇ¿ÖÆÔğÈÎ±£ÏÕ
-update chengbao_qibao set B050200=B050200*(today-startdate+1)/(enddate-startdate+1) where today < enddate;--»ú¶¯³µËğÊ§±£ÏÕ
-update chengbao_qibao set B050500=B050500*(today-startdate+1)/(enddate-startdate+1) where today < enddate;--µÁÇÀÏÕ
-update chengbao_qibao set B050600=B050600*(today-startdate+1)/(enddate-startdate+1) where today < enddate;--µÚÈıÕßÔğÈÎ±£ÏÕ
-update chengbao_qibao set B050701=B050701*(today-startdate+1)/(enddate-startdate+1) where today < enddate;--³µÉÏÈËÔ±ÔğÈÎÏÕ£¨Ë¾»ú£©
-update chengbao_qibao set B050702=B050702*(today-startdate+1)/(enddate-startdate+1) where today < enddate;--³µÉÏÈËÔ±ÔğÈÎÏÕ£¨³Ë¿Í£©
-update chengbao_qibao set B050911=B050911*(today-startdate+1)/(enddate-startdate+1) where today < enddate;--²»¼ÆÃâÅâÂÊ£¨³µËğÏÕ£©
-update chengbao_qibao set B050912=B050912*(today-startdate+1)/(enddate-startdate+1) where today < enddate;--²»¼ÆÃâÅâÂÊ£¨ÈıÕßÏÕ£©
-update chengbao_qibao set B050921=B050921*(today-startdate+1)/(enddate-startdate+1) where today < enddate;--²»¼ÆÃâÅâÂÊ£¨»ú¶¯³µµÁÇÀÏÕ£©
-update chengbao_qibao set B050928=B050928*(today-startdate+1)/(enddate-startdate+1) where today < enddate;--²»¼ÆÃâÅâÂÊ£¨³µÉÏÈËÔ±ÔğÈÎÏÕ£¨Ë¾»ú£©£©
-update chengbao_qibao set B050929=B050929*(today-startdate+1)/(enddate-startdate+1) where today < enddate;--²»¼ÆÃâÅâÂÊ£¨³µÉÏÈËÔ±ÔğÈÎÏÕ£¨³Ë¿Í£©£©
+-- --è®¡ç®—ä¸ªé™©åˆ«å·²èµšä¿è´¹ ---
+update chengbao_qibao set B050100=B050100*('2015-05-31'-startdate+1)/(enddate-startdate+1) where '2015-05-31' < enddate;--æœºåŠ¨è½¦äº¤é€šäº‹æ•…å¼ºåˆ¶è´£ä»»ä¿é™©
+update chengbao_qibao set B050200=B050200*('2015-05-31'-startdate+1)/(enddate-startdate+1) where '2015-05-31' < enddate;--æœºåŠ¨è½¦æŸå¤±ä¿é™©
+update chengbao_qibao set B050500=B050500*('2015-05-31'-startdate+1)/(enddate-startdate+1) where '2015-05-31' < enddate;--ç›—æŠ¢é™©
+update chengbao_qibao set B050600=B050600*('2015-05-31'-startdate+1)/(enddate-startdate+1) where '2015-05-31' < enddate;--ç¬¬ä¸‰è€…è´£ä»»ä¿é™©
+update chengbao_qibao set B050701=B050701*('2015-05-31'-startdate+1)/(enddate-startdate+1) where '2015-05-31' < enddate;--è½¦ä¸Šäººå‘˜è´£ä»»é™©ï¼ˆå¸æœºï¼‰
+update chengbao_qibao set B050702=B050702*('2015-05-31'-startdate+1)/(enddate-startdate+1) where '2015-05-31' < enddate;--è½¦ä¸Šäººå‘˜è´£ä»»é™©ï¼ˆä¹˜å®¢ï¼‰
+update chengbao_qibao set B050911=B050911*('2015-05-31'-startdate+1)/(enddate-startdate+1) where '2015-05-31' < enddate;--ä¸è®¡å…èµ”ç‡ï¼ˆè½¦æŸé™©ï¼‰
+update chengbao_qibao set B050912=B050912*('2015-05-31'-startdate+1)/(enddate-startdate+1) where '2015-05-31' < enddate;--ä¸è®¡å…èµ”ç‡ï¼ˆä¸‰è€…é™©ï¼‰
+update chengbao_qibao set B050921=B050921*('2015-05-31'-startdate+1)/(enddate-startdate+1) where '2015-05-31' < enddate;--ä¸è®¡å…èµ”ç‡ï¼ˆæœºåŠ¨è½¦ç›—æŠ¢é™©ï¼‰
+update chengbao_qibao set B050928=B050928*('2015-05-31'-startdate+1)/(enddate-startdate+1) where '2015-05-31' < enddate;--ä¸è®¡å…èµ”ç‡ï¼ˆè½¦ä¸Šäººå‘˜è´£ä»»é™©ï¼ˆå¸æœºï¼‰ï¼‰
+update chengbao_qibao set B050929=B050929*('2015-05-31'-startdate+1)/(enddate-startdate+1) where '2015-05-31' < enddate;--ä¸è®¡å…èµ”ç‡ï¼ˆè½¦ä¸Šäººå‘˜è´£ä»»é™©ï¼ˆä¹˜å®¢ï¼‰ï¼‰
 
 
 
@@ -136,65 +136,65 @@ block
 
 
 dbaccess -e $_LPDB <<!
-select a.comcode,     --¹éÊô»ú¹¹
+select a.comcode,     --å½’å±æœºæ„
        a.proposalno,
-       a.policyno,    --±£µ¥ºÅ
-       a.sumpremium,  --Ó¦½»±£·Ñ
-	   a.sumpremium premium_yz ,--ÒÑ×¬±£·Ñ
-       e.agenttype,   --ÇşµÀÀàĞÍ
-       a.agentcode,   --ÇşµÀ´úÂë
-       b.clausetype,  --Ìõ¿î²úÆ·
-       b.carkindcode, --³µÁ¾ÖÖÀà
-       b.useyears,    --Ê¹ÓÃÄêÏŞ
-       b.enrolldate,  --³õµÇÈÕÆÚ
-       a.startdate,   --Æğ±£ÈÕÆÚ
-       a.enddate,     --ÖÕ±£ÈÕÆÚ
-       b.licenseno,   --ºÅÅÆºÅÂë
-       b.licensecolorcode, --ºÅÅÆµ×É«
+       a.policyno,    --ä¿å•å·
+       a.sumpremium,  --åº”äº¤ä¿è´¹
+	   a.sumpremium premium_yz ,--å·²èµšä¿è´¹
+       e.agenttype,   --æ¸ é“ç±»å‹
+       a.agentcode,   --æ¸ é“ä»£ç 
+       b.clausetype,  --æ¡æ¬¾äº§å“
+       b.carkindcode, --è½¦è¾†ç§ç±»
+       b.useyears,    --ä½¿ç”¨å¹´é™
+       b.enrolldate,  --åˆç™»æ—¥æœŸ
+       a.startdate,   --èµ·ä¿æ—¥æœŸ
+       a.enddate,     --ç»ˆä¿æ—¥æœŸ
+       b.licenseno,   --å·ç‰Œå·ç 
+       b.licensecolorcode, --å·ç‰Œåº•è‰²
        b.engineno,    
        b.frameno,
-       handler1code,     --¹éÊôÈËÔ±
-       handlercode,      --¾­°ìÈËÔ±
-       businessnature,   --ÒµÎñÀ´Ô´
-       --case when length(contractno) = 22 then '³µ¶Ó'
-            --else 'µ¥³µ' end as policytype,         --±£µ¥ÖÖÀà
+       handler1code,     --å½’å±äººå‘˜
+       handlercode,      --ç»åŠäººå‘˜
+       businessnature,   --ä¸šåŠ¡æ¥æº
+       --case when length(contractno) = 22 then 'è½¦é˜Ÿ'
+            --else 'å•è½¦' end as policytype,         --ä¿å•ç§ç±»
        '                  ' policytype,
-       --case when underwriteflag = '3' then '×Ô¶¯'
-            --else 'ÈË¹¤' end as uwtype,             --ºË±£·½Ê½
+       --case when underwriteflag = '3' then 'è‡ªåŠ¨'
+            --else 'äººå·¥' end as uwtype,             --æ ¸ä¿æ–¹å¼
 	   '                    ' uwtype,
-       operatedate,   --Ç©µ¥ÈÕÆÚ
-       sumamount,     --±£ÏÕ½ğ¶î
-       a.riskcode,    --³Ğ±£ÏÕÖÖ
-       a.contractno,  --ÍÅµ¥ºÅ/ºÏÍ¬ºÅ
-       licensetype,   --ºÅÅÆÖÖÀà
+       operatedate,   --ç­¾å•æ—¥æœŸ
+       sumamount,     --ä¿é™©é‡‘é¢
+       a.riskcode,    --æ‰¿ä¿é™©ç§
+       a.contractno,  --å›¢å•å·/åˆåŒå·
+       licensetype,   --å·ç‰Œç§ç±»
        --vinno,
-       usenaturecode, --Ê¹ÓÃĞÔÖÊ
+       usenaturecode, --ä½¿ç”¨æ€§è´¨
        runmiles,
-       modelcode,     --³µĞÍ´úÂë
-       brandname,     --³µĞÍÃû³Æ
-       purchaseprice, --ĞÂ³µ¹ºÖÃ¼Û
-       actualvalue,   --Êµ¼Ê¼ÛÖµ
-       seatcount,     --ÔØ¿ÍÊı
-       toncount,      --ÔØÖÊÁ¿
-       exhaustscale,  --ÅÅÁ¿
-       runareaname,   --ĞĞÊ»ÇøÓò
-       MonopolyCode,  --ËÍĞŞÂë
-       projectcode,   --ÏîÄ¿´úÂë
-       --case when a.riskcode[1,2]='DZ' then 'ci'  else 'bi' end biciflag,  --½»Ç¿ÉÌÒµ±ê¼Ç
+       modelcode,     --è½¦å‹ä»£ç 
+       brandname,     --è½¦å‹åç§°
+       purchaseprice, --æ–°è½¦è´­ç½®ä»·
+       actualvalue,   --å®é™…ä»·å€¼
+       seatcount,     --è½½å®¢æ•°
+       toncount,      --è½½è´¨é‡
+       exhaustscale,  --æ’é‡
+       runareaname,   --è¡Œé©¶åŒºåŸŸ
+       MonopolyCode,  --é€ä¿®ç 
+       projectcode,   --é¡¹ç›®ä»£ç 
+       --case when a.riskcode[1,2]='DZ' then 'ci'  else 'bi' end biciflag,  --äº¤å¼ºå•†ä¸šæ ‡è®°
 	   '     ' biciflag,
-       b.flag[5] dxflag,   --µçÏúÒµÎñÀàĞÍ±ê¼ÇÎ»
+       b.flag[5] dxflag,   --ç”µé”€ä¸šåŠ¡ç±»å‹æ ‡è®°ä½
 	-------------------
-0.00::decimal(20,2) B050100,--»ú¶¯³µ½»Í¨ÊÂ¹ÊÇ¿ÖÆÔğÈÎ±£ÏÕ
-0.00::decimal(20,3) B050200,--»ú¶¯³µËğÊ§±£ÏÕ
-0.00::decimal(20,4) B050500,--µÁÇÀÏÕ
-0.00::decimal(20,5) B050600,--µÚÈıÕßÔğÈÎ±£ÏÕ
-0.00::decimal(20,6) B050701,--³µÉÏÈËÔ±ÔğÈÎÏÕ£¨Ë¾»ú£©
-0.00::decimal(20,7) B050702,--³µÉÏÈËÔ±ÔğÈÎÏÕ£¨³Ë¿Í£©
-0.00::decimal(20,8) B050911,--²»¼ÆÃâÅâÂÊ£¨³µËğÏÕ£©
-0.00::decimal(20,9) B050912,--²»¼ÆÃâÅâÂÊ£¨ÈıÕßÏÕ£©
-0.00::decimal(20,10) B050921,--²»¼ÆÃâÅâÂÊ£¨»ú¶¯³µµÁÇÀÏÕ£©
-0.00::decimal(20,11) B050928,--²»¼ÆÃâÅâÂÊ£¨³µÉÏÈËÔ±ÔğÈÎÏÕ£¨Ë¾»ú£©£©
-0.00::decimal(20,12) B050929,--²»¼ÆÃâÅâÂÊ£¨³µÉÏÈËÔ±ÔğÈÎÏÕ£¨³Ë¿Í£©£©  
+0.00::decimal(20,2) B050100,--æœºåŠ¨è½¦äº¤é€šäº‹æ•…å¼ºåˆ¶è´£ä»»ä¿é™©
+0.00::decimal(20,3) B050200,--æœºåŠ¨è½¦æŸå¤±ä¿é™©
+0.00::decimal(20,4) B050500,--ç›—æŠ¢é™©
+0.00::decimal(20,5) B050600,--ç¬¬ä¸‰è€…è´£ä»»ä¿é™©
+0.00::decimal(20,6) B050701,--è½¦ä¸Šäººå‘˜è´£ä»»é™©ï¼ˆå¸æœºï¼‰
+0.00::decimal(20,7) B050702,--è½¦ä¸Šäººå‘˜è´£ä»»é™©ï¼ˆä¹˜å®¢ï¼‰
+0.00::decimal(20,8) B050911,--ä¸è®¡å…èµ”ç‡ï¼ˆè½¦æŸé™©ï¼‰
+0.00::decimal(20,9) B050912,--ä¸è®¡å…èµ”ç‡ï¼ˆä¸‰è€…é™©ï¼‰
+0.00::decimal(20,10) B050921,--ä¸è®¡å…èµ”ç‡ï¼ˆæœºåŠ¨è½¦ç›—æŠ¢é™©ï¼‰
+0.00::decimal(20,11) B050928,--ä¸è®¡å…èµ”ç‡ï¼ˆè½¦ä¸Šäººå‘˜è´£ä»»é™©ï¼ˆå¸æœºï¼‰ï¼‰
+0.00::decimal(20,12) B050929,--ä¸è®¡å…èµ”ç‡ï¼ˆè½¦ä¸Šäººå‘˜è´£ä»»é™©ï¼ˆä¹˜å®¢ï¼‰ï¼‰  
 	   d.carchecker
 from   gd4400car3gdb@gd_4400_cb_bcv1:prpcmain a,
        gd4400car3gdb@gd_4400_cb_bcv1:prpcitem_car  b,
@@ -218,20 +218,20 @@ where 1=1
 into temp t_policyno with no log;
 
 --------------------
-----------±£µ¥ ÀíÅâĞÅÏ¢Î´½áºÏ-----
+----------ä¿å• ç†èµ”ä¿¡æ¯æœªç»“åˆ-----
 --------------------
 
------------Î´¾ö°¸¼şÇåµ¥----------------
+-----------æœªå†³æ¡ˆä»¶æ¸…å•----------------
 select x.policyno, x.claimno,x.registno,x.SUMESTIPAID, 
 '0' renshangflag,
 '0' siwangflag,
 '0' shangcanflag
 from prplclaim x,t_policyno y
---,prplregist z -------------Ôö¼Ó³öÏÕÈÕÆÚÅĞ¶Ï
+--,prplregist z -------------å¢åŠ å‡ºé™©æ—¥æœŸåˆ¤æ–­
 where x.policyno = y.policyno
 and x.canceldate is null
 ----------------------------------
-and x.endcasedate is   null  ------Î´½á°¸
+and x.endcasedate is   null  ------æœªç»“æ¡ˆ
 --and z.registno = x.registno 
 --and z.reportdate between '20150715' and '20150823'
 into temp t_claim with no log;
@@ -243,7 +243,7 @@ where 1=1;
 
 
 
------ÅĞ¶ÏÈËÉË---------
+-----åˆ¤æ–­äººä¼¤---------
 select distinct x.claimno 
 from t_claim x,prplbpmmain y
 where y.businessno = x.registno
@@ -258,7 +258,7 @@ when matched then update set x.renshangflag = '1'
 
 drop table t_rs;
 
----------ÅĞ¶ÏËÀÍö-----------
+---------åˆ¤æ–­æ­»äº¡-----------
 select distinct y.claimno
 from PrpLinjured x,t_claim y
 where x.registno = y.registno
@@ -275,7 +275,7 @@ set (x.siwangflag,x.renshangflag) = ('1','1');
 
 drop table t_siwang;
 
---------ÅĞ¶ÏÉË²Ğ-----------
+--------åˆ¤æ–­ä¼¤æ®‹-----------
 
 select distinct y.claimno
 from PrpLinjured x,t_claim y
@@ -296,11 +296,11 @@ select x.*,
 	   y.feetype,y.feetypecode,
 	   y.itemkindno,y.clausecode,
 	   y.kindcode,y.itemcode,
-	   y.sumclaim,-- ¹ÀËğ
-	   y.estipaid ,--¹ÀÅâ
-	   y.sumpaid,--ÏÕ±ğÒÑÅâ¸¶½ğ¶î
-	   --y.outstanding, --ÏÕ±ğÎ´¾öÅâ¿î½ğ¶î
-	   y.sumrest --²ĞÖµ
+	   y.sumclaim,-- ä¼°æŸ
+	   y.estipaid ,--ä¼°èµ”
+	   y.sumpaid,--é™©åˆ«å·²èµ”ä»˜é‡‘é¢
+	   --y.outstanding, --é™©åˆ«æœªå†³èµ”æ¬¾é‡‘é¢
+	   y.sumrest --æ®‹å€¼
 from t_claim x,prplclaimfee y
 where y.claimno = x.claimno
 and y.validflag = '1'
@@ -330,11 +330,11 @@ select x.*,
 0.00::decimal(20,2) A050921,
 0.00::decimal(20,2) A050928,
 0.00::decimal(20,2) A050929,
-'Î´½á°¸'    endcasefalg  ---½á°¸×´Ì¬
+'æœªç»“æ¡ˆ'    endcasefalg  ---ç»“æ¡ˆçŠ¶æ€
 from chengbao_qibao  x
 where 1=1 into temp chengbao_list with no log;
 
------------»ã×ÜÁ¢°¸Êı--------------
+-----------æ±‡æ€»ç«‹æ¡ˆæ•°--------------
 select policyno ,count(claimno) lianshu
 from t_claim 
 where 1=1 
@@ -352,7 +352,7 @@ when matched then update set a.lianshu = b.lianshu;
 drop table t_lianshu;
 drop table t1;
 
--------»ã×ÜÈËÉË°¸¼şÊıÁ¿-
+-------æ±‡æ€»äººä¼¤æ¡ˆä»¶æ•°é‡-
 
 
 select policyno ,count(claimno) lianshu_renshang
@@ -374,7 +374,7 @@ when matched then update set a.renshangshu = b.lianshu_renshang;
 
 drop table t_lianshu_renshang;
 drop table t1;
------»ã×ÜÉË²Ğ°¸¼şÊıÁ¿---
+-----æ±‡æ€»ä¼¤æ®‹æ¡ˆä»¶æ•°é‡---
 
 select policyno ,count(claimno) lianshu_renshang
 from t_claim 
@@ -397,10 +397,10 @@ drop table t_lianshu_renshang;
 drop table t1;
 --------
 
-unload to 'ÈËÉË·ÖÎö_claim_Î´¾ö.unl'
+unload to 'äººä¼¤åˆ†æ_claim_æœªå†³.unl'
 select * from t_claim where 1=1;
 
--------»ã×ÜËÀÍöÊıÁ¿-----
+-------æ±‡æ€»æ­»äº¡æ•°é‡-----
 
 select policyno ,count(claimno) lianshu_renshang
 from t_claim 
@@ -422,7 +422,7 @@ drop table t_lianshu_renshang;
 drop table t1;
 
 --------
-----------×ÜÅâ¸¶½ğ¶î»ã×Ü---------
+----------æ€»èµ”ä»˜é‡‘é¢æ±‡æ€»---------
 --drop table t_sumpaid;
 select x.policyno,x.claimno,y.sumestipaid
 from t_claim x,prplclaim y
@@ -452,17 +452,17 @@ drop table t_sumpaid2;
 --select * from chengbao_list where lianshu >= 1
 --and renshangshu >= 1;
 
----½»Ç¿ÏÕµÄÔÙÏ¸·ÖÅâ¿î-------
+---äº¤å¼ºé™©çš„å†ç»†åˆ†èµ”æ¬¾-------
 --select claimno,policyno,feetype,feetypecode from t_claimfee 
 --where kindcode = '050100'
 --and feetypecode = '01'
 --;
 
----------Ôö¼Ó½»Ç¿ÏÕÏ¸·ÖÅâ¸¶·ÖÀà-----------
+---------å¢åŠ äº¤å¼ºé™©ç»†åˆ†èµ”ä»˜åˆ†ç±»-----------
 select * ,
-0.00::decimal(20,2) A050100A , ----feetypecode=52---------itemcode = 1 ²Æ²ú
-0.00::decimal(20,2) A050100B ,------feetypecode=51--------itemcode =2 'ÈËÔ±ÉËÍö
-0.00::decimal(20,2) A050100C ------feetypecode=49---------itemcode =3  Ò½ÁÆ
+0.00::decimal(20,2) A050100A , ----feetypecode=52---------itemcode = 1 è´¢äº§
+0.00::decimal(20,2) A050100B ,------feetypecode=51--------itemcode =2 'äººå‘˜ä¼¤äº¡
+0.00::decimal(20,2) A050100C ------feetypecode=49---------itemcode =3  åŒ»ç–—
 from chengbao_list
 where 1=1 into temp chengbao_list2 with no log;
 
@@ -473,7 +473,7 @@ create index idx1 on chengbao_list2(policyno);
 
 
 
-------------»ã×Ü¸÷¸öÏÕ±ğµÄÅâ¿îÇé¿ö--------
+------------æ±‡æ€»å„ä¸ªé™©åˆ«çš„èµ”æ¬¾æƒ…å†µ--------
 select policyno ,kindcode,sum(estipaid) estipaid
 	from  t_claimfee 
 where 1=1
@@ -487,7 +487,7 @@ create index idx3 on t_bi_paid(kindcode);
 
 
 --select * from t_bi_paid;
--------ÉÌÒµÏÕÏÕ±ğÖğ¸ö¸üĞÂ-------------
+-------å•†ä¸šé™©é™©åˆ«é€ä¸ªæ›´æ–°-------------
 
 
 --050100
@@ -525,19 +525,19 @@ create index idx3 on t_bi_paid(kindcode);
 --on a.policyno = b.policyno and b.kindcode = '050202'
 --when matched then update set a.A050200 = b.estipaid;
 
-merge into chengbao_list2 a using t_bi_paid b on a.policyno = b.policyno and b.kindcode = '050100' when matched then update set a.A050100= b.estipaid;--»ú¶¯³µ½»Í¨ÊÂ¹ÊÇ¿ÖÆÔğÈÎ±£ÏÕ
-merge into chengbao_list2 a using t_bi_paid b on a.policyno = b.policyno and b.kindcode = '050200' when matched then update set a.A050200= b.estipaid;--»ú¶¯³µËğÊ§±£ÏÕ
-merge into chengbao_list2 a using t_bi_paid b on a.policyno = b.policyno and b.kindcode = '050500' when matched then update set a.A050500= b.estipaid;--µÁÇÀÏÕ
-merge into chengbao_list2 a using t_bi_paid b on a.policyno = b.policyno and b.kindcode = '050600' when matched then update set a.A050600= b.estipaid;--µÚÈıÕßÔğÈÎ±£ÏÕ
-merge into chengbao_list2 a using t_bi_paid b on a.policyno = b.policyno and b.kindcode = '050701' when matched then update set a.A050701= b.estipaid;--³µÉÏÈËÔ±ÔğÈÎÏÕ£¨Ë¾»ú£©
-merge into chengbao_list2 a using t_bi_paid b on a.policyno = b.policyno and b.kindcode = '050702' when matched then update set a.A050702= b.estipaid;--³µÉÏÈËÔ±ÔğÈÎÏÕ£¨³Ë¿Í£©
-merge into chengbao_list2 a using t_bi_paid b on a.policyno = b.policyno and b.kindcode = '050911' when matched then update set a.A050911= b.estipaid;--²»¼ÆÃâÅâÂÊ£¨³µËğÏÕ£©
-merge into chengbao_list2 a using t_bi_paid b on a.policyno = b.policyno and b.kindcode = '050912' when matched then update set a.A050912= b.estipaid;--²»¼ÆÃâÅâÂÊ£¨ÈıÕßÏÕ£©
-merge into chengbao_list2 a using t_bi_paid b on a.policyno = b.policyno and b.kindcode = '050921' when matched then update set a.A050921= b.estipaid;--²»¼ÆÃâÅâÂÊ£¨»ú¶¯³µµÁÇÀÏÕ£©
-merge into chengbao_list2 a using t_bi_paid b on a.policyno = b.policyno and b.kindcode = '050928' when matched then update set a.A050928= b.estipaid;--²»¼ÆÃâÅâÂÊ£¨³µÉÏÈËÔ±ÔğÈÎÏÕ£¨Ë¾»ú£©£©
-merge into chengbao_list2 a using t_bi_paid b on a.policyno = b.policyno and b.kindcode = '050929' when matched then update set a.A050929= b.estipaid;--²»¼ÆÃâÅâÂÊ£¨³µÉÏÈËÔ±ÔğÈÎÏÕ£¨³Ë¿Í£©£©
+merge into chengbao_list2 a using t_bi_paid b on a.policyno = b.policyno and b.kindcode = '050100' when matched then update set a.A050100= b.estipaid;--æœºåŠ¨è½¦äº¤é€šäº‹æ•…å¼ºåˆ¶è´£ä»»ä¿é™©
+merge into chengbao_list2 a using t_bi_paid b on a.policyno = b.policyno and b.kindcode = '050200' when matched then update set a.A050200= b.estipaid;--æœºåŠ¨è½¦æŸå¤±ä¿é™©
+merge into chengbao_list2 a using t_bi_paid b on a.policyno = b.policyno and b.kindcode = '050500' when matched then update set a.A050500= b.estipaid;--ç›—æŠ¢é™©
+merge into chengbao_list2 a using t_bi_paid b on a.policyno = b.policyno and b.kindcode = '050600' when matched then update set a.A050600= b.estipaid;--ç¬¬ä¸‰è€…è´£ä»»ä¿é™©
+merge into chengbao_list2 a using t_bi_paid b on a.policyno = b.policyno and b.kindcode = '050701' when matched then update set a.A050701= b.estipaid;--è½¦ä¸Šäººå‘˜è´£ä»»é™©ï¼ˆå¸æœºï¼‰
+merge into chengbao_list2 a using t_bi_paid b on a.policyno = b.policyno and b.kindcode = '050702' when matched then update set a.A050702= b.estipaid;--è½¦ä¸Šäººå‘˜è´£ä»»é™©ï¼ˆä¹˜å®¢ï¼‰
+merge into chengbao_list2 a using t_bi_paid b on a.policyno = b.policyno and b.kindcode = '050911' when matched then update set a.A050911= b.estipaid;--ä¸è®¡å…èµ”ç‡ï¼ˆè½¦æŸé™©ï¼‰
+merge into chengbao_list2 a using t_bi_paid b on a.policyno = b.policyno and b.kindcode = '050912' when matched then update set a.A050912= b.estipaid;--ä¸è®¡å…èµ”ç‡ï¼ˆä¸‰è€…é™©ï¼‰
+merge into chengbao_list2 a using t_bi_paid b on a.policyno = b.policyno and b.kindcode = '050921' when matched then update set a.A050921= b.estipaid;--ä¸è®¡å…èµ”ç‡ï¼ˆæœºåŠ¨è½¦ç›—æŠ¢é™©ï¼‰
+merge into chengbao_list2 a using t_bi_paid b on a.policyno = b.policyno and b.kindcode = '050928' when matched then update set a.A050928= b.estipaid;--ä¸è®¡å…èµ”ç‡ï¼ˆè½¦ä¸Šäººå‘˜è´£ä»»é™©ï¼ˆå¸æœºï¼‰ï¼‰
+merge into chengbao_list2 a using t_bi_paid b on a.policyno = b.policyno and b.kindcode = '050929' when matched then update set a.A050929= b.estipaid;--ä¸è®¡å…èµ”ç‡ï¼ˆè½¦ä¸Šäººå‘˜è´£ä»»é™©ï¼ˆä¹˜å®¢ï¼‰ï¼‰
 
-----------------½»Ç¿ÏÕÅâ¿îÔÙÏ¸·Ö------------------------
+----------------äº¤å¼ºé™©èµ”æ¬¾å†ç»†åˆ†------------------------
 --select * from chengbao_list2 where policyno = 'PDAT20144418T000009987';
 
 select policyno ,kindcode,feetypecode ,sum(estipaid) estipaid 
@@ -608,58 +608,58 @@ brandname	,
 purchaseprice	,
 actualvalue	,
 seatcount	,
-case when seatcount < 6 then '6×ùÒÔÏÂ'
-	 when seatcount < 10 then '6ÖÁ10×ù'
-	 when seatcount < 20 then '10ÖÁ20×ù'
-	 when seatcount < 36 then '20ÖÁ36×ù'
-	else '36×ùÒÔÉÏ' end as seattype,
+case when seatcount < 6 then '6åº§ä»¥ä¸‹'
+	 when seatcount < 10 then '6è‡³10åº§'
+	 when seatcount < 20 then '10è‡³20åº§'
+	 when seatcount < 36 then '20è‡³36åº§'
+	else '36åº§ä»¥ä¸Š' end as seattype,
 toncount	,
-case when toncount <500 then 'Ğ¡ÓÚ0.5T'
-	when toncount < 1000 then '0.5ÖÁ1T'
-	when toncount < 2000 then '1ÖÁ2T'
-	when toncount < 5000 then '2ÖÁ5T'
-	when toncount < 10000 then '5ÖÁ10T'
-	else '10TÒÔÉÏ' end as toncountType,
+case when toncount <500 then 'å°äº0.5T'
+	when toncount < 1000 then '0.5è‡³1T'
+	when toncount < 2000 then '1è‡³2T'
+	when toncount < 5000 then '2è‡³5T'
+	when toncount < 10000 then '5è‡³10T'
+	else '10Tä»¥ä¸Š' end as toncountType,
 exhaustscale	,
-case when exhaustscale < 1 then 'Ğ¡ÓÚ1L'
-	when exhaustscale <1.6 then '1ÖÁ1.6L'
-	when exhaustscale <2.5 then '1.6ÖÁ2.5L'
-	when exhaustscale <4.0 then '2.5ÖÁ4L'
-	else '³¬4.0L' end as exhaustscaleType,
---runareaname	,--	È¥µôĞĞÊ»Àï³Ì
+case when exhaustscale < 1 then 'å°äº1L'
+	when exhaustscale <1.6 then '1è‡³1.6L'
+	when exhaustscale <2.5 then '1.6è‡³2.5L'
+	when exhaustscale <4.0 then '2.5è‡³4L'
+	else 'è¶…4.0L' end as exhaustscaleType,
+--runareaname	,--	å»æ‰è¡Œé©¶é‡Œç¨‹
 monopolycode	,
 projectcode	,
 biciflag	,
 dxflag	,
-'×ª±£'::varchar(10)  xbflag,
-B050100,--»ú¶¯³µ½»Í¨ÊÂ¹ÊÇ¿ÖÆÔğÈÎ±£ÏÕ
-B050200,--»ú¶¯³µËğÊ§±£ÏÕ
-B050500,--µÁÇÀÏÕ
-B050600,--µÚÈıÕßÔğÈÎ±£ÏÕ
-B050701,--³µÉÏÈËÔ±ÔğÈÎÏÕ£¨Ë¾»ú£©
-B050702,--³µÉÏÈËÔ±ÔğÈÎÏÕ£¨³Ë¿Í£©
-B050911,--²»¼ÆÃâÅâÂÊ£¨³µËğÏÕ£©
-B050912,--²»¼ÆÃâÅâÂÊ£¨ÈıÕßÏÕ£©
-B050921,--²»¼ÆÃâÅâÂÊ£¨»ú¶¯³µµÁÇÀÏÕ£©
-B050928,--²»¼ÆÃâÅâÂÊ£¨³µÉÏÈËÔ±ÔğÈÎÏÕ£¨Ë¾»ú£©£©
-B050929,--²»¼ÆÃâÅâÂÊ£¨³µÉÏÈËÔ±ÔğÈÎÏÕ£¨³Ë¿Í£©£©
+'è½¬ä¿'::varchar(10)  xbflag,
+B050100,--æœºåŠ¨è½¦äº¤é€šäº‹æ•…å¼ºåˆ¶è´£ä»»ä¿é™©
+B050200,--æœºåŠ¨è½¦æŸå¤±ä¿é™©
+B050500,--ç›—æŠ¢é™©
+B050600,--ç¬¬ä¸‰è€…è´£ä»»ä¿é™©
+B050701,--è½¦ä¸Šäººå‘˜è´£ä»»é™©ï¼ˆå¸æœºï¼‰
+B050702,--è½¦ä¸Šäººå‘˜è´£ä»»é™©ï¼ˆä¹˜å®¢ï¼‰
+B050911,--ä¸è®¡å…èµ”ç‡ï¼ˆè½¦æŸé™©ï¼‰
+B050912,--ä¸è®¡å…èµ”ç‡ï¼ˆä¸‰è€…é™©ï¼‰
+B050921,--ä¸è®¡å…èµ”ç‡ï¼ˆæœºåŠ¨è½¦ç›—æŠ¢é™©ï¼‰
+B050928,--ä¸è®¡å…èµ”ç‡ï¼ˆè½¦ä¸Šäººå‘˜è´£ä»»é™©ï¼ˆå¸æœºï¼‰ï¼‰
+B050929,--ä¸è®¡å…èµ”ç‡ï¼ˆè½¦ä¸Šäººå‘˜è´£ä»»é™©ï¼ˆä¹˜å®¢ï¼‰ï¼‰
 carchecker	,
 lianshu	,
 renshangshu	,
 xiesishu	,
 xiecanshu	,
 z_peifu	,
-A050100,--»ú¶¯³µ½»Í¨ÊÂ¹ÊÇ¿ÖÆÔğÈÎ±£ÏÕ
-A050200,--»ú¶¯³µËğÊ§±£ÏÕ
-A050500,--µÁÇÀÏÕ
-A050600,--µÚÈıÕßÔğÈÎ±£ÏÕ
-A050701,--³µÉÏÈËÔ±ÔğÈÎÏÕ£¨Ë¾»ú£©
-A050702,--³µÉÏÈËÔ±ÔğÈÎÏÕ£¨³Ë¿Í£©
-A050911,--²»¼ÆÃâÅâÂÊ£¨³µËğÏÕ£©
-A050912,--²»¼ÆÃâÅâÂÊ£¨ÈıÕßÏÕ£©
-A050921,--²»¼ÆÃâÅâÂÊ£¨»ú¶¯³µµÁÇÀÏÕ£©
-A050928,--²»¼ÆÃâÅâÂÊ£¨³µÉÏÈËÔ±ÔğÈÎÏÕ£¨Ë¾»ú£©£©
-A050929,--²»¼ÆÃâÅâÂÊ£¨³µÉÏÈËÔ±ÔğÈÎÏÕ£¨³Ë¿Í£©£©
+A050100,--æœºåŠ¨è½¦äº¤é€šäº‹æ•…å¼ºåˆ¶è´£ä»»ä¿é™©
+A050200,--æœºåŠ¨è½¦æŸå¤±ä¿é™©
+A050500,--ç›—æŠ¢é™©
+A050600,--ç¬¬ä¸‰è€…è´£ä»»ä¿é™©
+A050701,--è½¦ä¸Šäººå‘˜è´£ä»»é™©ï¼ˆå¸æœºï¼‰
+A050702,--è½¦ä¸Šäººå‘˜è´£ä»»é™©ï¼ˆä¹˜å®¢ï¼‰
+A050911,--ä¸è®¡å…èµ”ç‡ï¼ˆè½¦æŸé™©ï¼‰
+A050912,--ä¸è®¡å…èµ”ç‡ï¼ˆä¸‰è€…é™©ï¼‰
+A050921,--ä¸è®¡å…èµ”ç‡ï¼ˆæœºåŠ¨è½¦ç›—æŠ¢é™©ï¼‰
+A050928,--ä¸è®¡å…èµ”ç‡ï¼ˆè½¦ä¸Šäººå‘˜è´£ä»»é™©ï¼ˆå¸æœºï¼‰ï¼‰
+A050929,--ä¸è®¡å…èµ”ç‡ï¼ˆè½¦ä¸Šäººå‘˜è´£ä»»é™©ï¼ˆä¹˜å®¢ï¼‰ï¼‰
 endcasefalg	,
 a050100a	,
 a050100b	,
@@ -670,7 +670,7 @@ a050100c,
 from chengbao_list2 where 1=1
 into temp chengbao_result with no log;
 
-update chengbao_result set xbflag = 'ĞÂ³µ'
+update chengbao_result set xbflag = 'æ–°è½¦'
 where extend(startdate,year to month)-enrolldate <= "0-09"
 ;
 
@@ -688,7 +688,7 @@ create index idx5 on chengbao_result(proposalno);
 merge into chengbao_result a
 using baobiaodb@p595p2_tcp:middle_car_renewal b
 on a.proposalno = b.preproposalno and length(b.oldproposalno) = 22
-when matched then update set a.xbflag = 'Ğø±£'
+when matched then update set a.xbflag = 'ç»­ä¿'
 ;
 
 
@@ -710,70 +710,54 @@ from chengbao_result
 where 1=1
 into temp chengbao_result2 with no log
 ;
---³µËğ
+--è½¦æŸ
 update chengbao_result2 set flag1 = 1
 where B050200 > 0.00
 ;
---ÈıÕß
+--ä¸‰è€…
 update chengbao_result2 set flag2 = 1
 where B050600 > 0.00
 ;
---µÁÇÀ
+--ç›—æŠ¢
 update chengbao_result2 set flag3 = 1
 where B050500 > 0.00
 ;
 
---Ë¾»ú»ò³Ë¿Í
+--å¸æœºæˆ–ä¹˜å®¢
 update chengbao_result2 set flag4 = 1
 where B050701 > 0.00 or B050702 > 0.00
 ;
 
 
-update chengbao_result2 set tflag='²»±£³µËğ'
+update chengbao_result2 set tflag='ä¸ä¿è½¦æŸ'
 where flag1 = 0;
 
-update chengbao_result2 set tflag='³µËğ+3Ö÷ÏÕ'
+update chengbao_result2 set tflag='è½¦æŸ+3ä¸»é™©'
 where flag1 = 1 and (flag2+flag3+flag4) = 3;
 
 
-update chengbao_result2 set tflag='³µËğ+2Ö÷ÏÕ'
+update chengbao_result2 set tflag='è½¦æŸ+2ä¸»é™©'
 where flag1 = 1 and (flag2+flag3+flag4) = 2;
 
 
-update chengbao_result2 set tflag='µ¥±£³µËğ'
+update chengbao_result2 set tflag='å•ä¿è½¦æŸ'
 where flag1 = 1 and ((flag2+flag3+flag4) = 1 or (flag2+flag3+flag4) = 0);
 
 
-------------------------Î´¾ö³Ğ±£¶ÈÁ¿È¡0--------------------
+-- ----------------------æœªå†³æ‰¿ä¿åº¦é‡å–0--------------------
 
--- --¼ÆËã¸öÏÕ±ğÒÑ×¬±£·Ñ ---
-update chengbao_result2 set 	B050100	 =	B050100	*0		where  1=1;
-update chengbao_result2 set 	B050200	 =	B050200	*0		where  1=1;
-update chengbao_result2 set 	B050210	 =	B050210	*0		where  1=1;
-update chengbao_result2 set 	B050220	 =	B050220	*0		where  1=1;
-update chengbao_result2 set 	B050231	 =	B050231	*0		where  1=1;
-update chengbao_result2 set 	B050252	 =	B050252	*0		where  1=1;
-update chengbao_result2 set 	B050260	 =	B050260	*0		where  1=1;
-update chengbao_result2 set 	B050291	 =	B050291	*0		where  1=1;
-update chengbao_result2 set 	B050310	 =	B050310	*0		where  1=1;
-update chengbao_result2 set 	B050350	 =	B050350	*0	    where  1=1;
-update chengbao_result2 set 	B050500	 =	B050500	*0		where  1=1;
-update chengbao_result2 set 	B050600	 =	B050600	*0		where  1=1;
-update chengbao_result2 set 	B050701	 =	B050701	*0		where  1=1;
-update chengbao_result2 set 	B050702	 =	B050702	*0		where  1=1;
-update chengbao_result2 set 	B050800	 =	B050800	*0		where  1=1;
-update chengbao_result2 set 	B050911	 =	B050911	*0		where  1=1;
-update chengbao_result2 set 	B050912	 =	B050912	*0		where  1=1;
-update chengbao_result2 set 	B050921	 =	B050921	*0		where  1=1;
-update chengbao_result2 set 	B050922	 =	B050922	*0		where  1=1;
-update chengbao_result2 set 	B050923	 =	B050923	*0		where  1=1;
-update chengbao_result2 set 	B050924	 =	B050924	*0		where  1=1;
-update chengbao_result2 set 	B050925	 =	B050925	*0		where  1=1;
-update chengbao_result2 set 	B050928	 =	B050928	*0	    where  1=1;
-update chengbao_result2 set 	B050929	 =	B050929	*0		where  1=1;
-update chengbao_result2 set 	B050941	 =	B050941	*0		where  1=1;
-update chengbao_result2 set 	B050942	 =	B050942	*0		where  1=1;
-update chengbao_result2 set 	B050944	 =	B050944	*0		where  1=1;
+-- --è®¡ç®—ä¸ªé™©åˆ«å·²èµšä¿è´¹ ---
+update chengbao_result2 set B050100=B050100*0 where 1 = 1;--æœºåŠ¨è½¦äº¤é€šäº‹æ•…å¼ºåˆ¶è´£ä»»ä¿é™©
+update chengbao_result2 set B050200=B050200*0 where 1 = 1;--æœºåŠ¨è½¦æŸå¤±ä¿é™©
+update chengbao_result2 set B050500=B050500*0 where 1 = 1;--ç›—æŠ¢é™©
+update chengbao_result2 set B050600=B050600*0 where 1 = 1;--ç¬¬ä¸‰è€…è´£ä»»ä¿é™©
+update chengbao_result2 set B050701=B050701*0 where 1 = 1;--è½¦ä¸Šäººå‘˜è´£ä»»é™©ï¼ˆå¸æœºï¼‰
+update chengbao_result2 set B050702=B050702*0 where 1 = 1;--è½¦ä¸Šäººå‘˜è´£ä»»é™©ï¼ˆä¹˜å®¢ï¼‰
+update chengbao_result2 set B050911=B050911*0 where 1 = 1;--ä¸è®¡å…èµ”ç‡ï¼ˆè½¦æŸé™©ï¼‰
+update chengbao_result2 set B050912=B050912*0 where 1 = 1;--ä¸è®¡å…èµ”ç‡ï¼ˆä¸‰è€…é™©ï¼‰
+update chengbao_result2 set B050921=B050921*0 where 1 = 1;--ä¸è®¡å…èµ”ç‡ï¼ˆæœºåŠ¨è½¦ç›—æŠ¢é™©ï¼‰
+update chengbao_result2 set B050928=B050928*0 where 1 = 1;--ä¸è®¡å…èµ”ç‡ï¼ˆè½¦ä¸Šäººå‘˜è´£ä»»é™©ï¼ˆå¸æœºï¼‰ï¼‰
+update chengbao_result2 set B050929=B050929*0 where 1 = 1;--ä¸è®¡å…èµ”ç‡ï¼ˆè½¦ä¸Šäººå‘˜è´£ä»»é™©ï¼ˆä¹˜å®¢ï¼‰ï¼‰
 
 update chengbao_result2 set sumpremium = 0.00 ,premium_yz = 0.00 where 1=1;
 
@@ -831,8 +815,8 @@ case when B050944 = 0.00 then 0.00 else A050944/B050944 end as AB050944
 
 !
 
-sed '1i\
-»ú¹¹´úÂë	Í¶±£µ¥ºÅ	±£µ¥ºÅ	Ó¦½»±£·Ñ	ÒÑ×¬±£·Ñ	ÇşµÀÀàĞÍ	ÇşµÀ´úÂë	²úÆ·Ìõ¿î	³µÁ¾ÖÖÀà	Ê¹ÓÃÄêÏŞ	³õµÇÈÕÆÚ	Æğ±£ÈÕÆÚ	ÖÕ±£ÈÕÆÚ	³µÅÆ	ºÅÅÆµ×É«	·¢¶¯»úºÅ	³µ¼ÜºÅ	¹éÊôÈËÔ±	¾­°ìÈËÔ±	ÒµÎñÀ´Ô´	±£µ¥ÖÖÀà	ºË±£·½Ê½	Ç©µ¥ÈÕÆÚ	±£ÏÕ½ğ¶î	³Ğ±£ÏÕÖÖ	ºÏÍ¬ºÅ	³µÅÆÖÖÀà	Ê¹ÓÃĞÔÖÊ	ĞĞÊ»Àï³Ì	³µĞÍ´úÂë	³µĞÍÃû³Æ	ĞÂ³µ¹ºÖÃ¼Û	Êµ¼Ê¼ÛÖµ	ÔØ¿ÍÊıÁ¿	×ùÎ»Êı	ÔØÖØ	¶ÖÎ»Êı	ÅÅÁ¿	ÅÅÁ¿·ÖÀà	ËÍĞŞÂë	ÏîÄ¿´úÂë	ÉÌÒµ½»Ç¿±êÖ¾	µçÏúÒµÎñÀàĞÍ±ê¼Ç	ĞÂĞø´«±êÖ¾	CB»ú¶¯³µ½»Í¨ÊÂ¹ÊÇ¿ÖÆÔğÈÎ±£ÏÕ	CB»ú¶¯³µËğÊ§±£ÏÕ	CB³µÉí»®ºÛËğÊ§ÏÕ	CB»ğÔÖ¡¢±¬Õ¨¡¢×ÔÈ¼ËğÊ§ÏÕÌõ¿î	CB²£Á§µ¥¶ÀÆÆËéÏÕ	CBÖ¸¶¨ĞŞÀí³§ÌØÔ¼Ìõ¿î	CBĞÂÔö¼ÓÉè±¸ËğÊ§±£ÏÕ	CB·¢¶¯»úÌØ±ğËğÊ§ÏÕ	CB³µÁ¾×ÔÈ¼ËğÊ§±£ÏÕ	CBÆğÖØ¡¢×°Ğ¶¡¢ÍÚ¾ò³µÁ¾ËğÊ§À©Õ¹Ìõ¿î	CB³µÁ¾µÁÇÀ±£ÏÕ	CBµÚÈıÕßÔğÈÎ±£ÏÕ	CB³µÉÏÈËÔ±ÔğÈÎÏÕ	CB³µÉÏ³Ë¿ÍÔğÈÎÏÕ	CB³µÉÏ»õÎïÔğÈÎÏÕ	CB²»¼ÆÃâÅâÂÊ(³µÁ¾ËğÊ§ÏÕ)	CB²»¼ÆÃâÅâÂÊ(ÈıÕßÏÕ)	CB²»¼ÆÃâÅâÂÊ(»ú¶¯³µµÁÇÀÏÕ)	CB²»¼ÆÃâÅâÂÊ(³µÉí»®ºÛËğÊ§ÏÕ)	CB²»¼ÆÃâÅâÂÊ(ĞÂÔö¼ÓÉè±¸ËğÊ§±£ÏÕ)	CB²»¼ÆÃâÅâÂÊ(·¢¶¯»úÌØ±ğËğÊ§ÏÕ)	CB²»¼ÆÃâÅâÂÊ£¨³µÉÏ»õÎïÔğÈÎÏÕ£©	CB²»¼ÆÃâÅâÂÊ(³µÉÏÈËÔ±ÔğÈÎÏÕ(Ë¾»ú))	CB²»¼ÆÃâÅâÂÊ(³µÉÏÈËÔ±ÔğÈÎÏÕ(³Ë¿Í))	CB½ÌÁ·³µÌØÔ¼Ìõ¿î(³µËğÏÕ)	CB½ÌÁ·³µÌØÔ¼Ìõ¿î(ÈıÕßÏÕ)	CB½ÌÁ·³µÌØÔ¼Ìõ¿î(³µÉÏÈËÔ±ÔğÈÎÏÕ(³Ë¿Í))	Ñé³µÈË	Á¢°¸ÊıÁ¿	ÈËÉË°¸¼şÊıÁ¿	ËÀÍö°¸¼şÊıÁ¿	ÉË²Ğ°¸¼şÊıÁ¿	×ÜÅâ¸¶½ğ¶î	LP»ú¶¯³µ½»Í¨ÊÂ¹ÊÇ¿ÖÆÔğÈÎ±£ÏÕ	LP»ú¶¯³µËğÊ§±£ÏÕ	LP³µÉí»®ºÛËğÊ§ÏÕ	LP»ğÔÖ¡¢±¬Õ¨¡¢×ÔÈ¼ËğÊ§ÏÕÌõ¿î	LP²£Á§µ¥¶ÀÆÆËéÏÕ	LPÖ¸¶¨ĞŞÀí³§ÌØÔ¼Ìõ¿î	LPĞÂÔö¼ÓÉè±¸ËğÊ§±£ÏÕ	LP·¢¶¯»úÌØ±ğËğÊ§ÏÕ	LP³µÁ¾×ÔÈ¼ËğÊ§±£ÏÕ	LPÆğÖØ¡¢×°Ğ¶¡¢ÍÚ¾ò³µÁ¾ËğÊ§À©Õ¹Ìõ¿î	LP³µÁ¾µÁÇÀ±£ÏÕ	LPµÚÈıÕßÔğÈÎ±£ÏÕ	LP³µÉÏÈËÔ±ÔğÈÎÏÕ	LP³µÉÏ³Ë¿ÍÔğÈÎÏÕ	LP³µÉÏ»õÎïÔğÈÎÏÕ	LP²»¼ÆÃâÅâÂÊ(³µÁ¾ËğÊ§ÏÕ)	LP²»¼ÆÃâÅâÂÊ(ÈıÕßÏÕ)	LP²»¼ÆÃâÅâÂÊ(»ú¶¯³µµÁÇÀÏÕ)	LP²»¼ÆÃâÅâÂÊ(³µÉí»®ºÛËğÊ§ÏÕ)	LP²»¼ÆÃâÅâÂÊ(ĞÂÔö¼ÓÉè±¸ËğÊ§±£ÏÕ)	LP²»¼ÆÃâÅâÂÊ(·¢¶¯»úÌØ±ğËğÊ§ÏÕ)	LP²»¼ÆÃâÅâÂÊ£¨³µÉÏ»õÎïÔğÈÎÏÕ£©	LP²»¼ÆÃâÅâÂÊ(³µÉÏÈËÔ±ÔğÈÎÏÕ(Ë¾»ú))	LP²»¼ÆÃâÅâÂÊ(³µÉÏÈËÔ±ÔğÈÎÏÕ(³Ë¿Í))	LP½ÌÁ·³µÌØÔ¼Ìõ¿î(³µËğÏÕ)	LP½ÌÁ·³µÌØÔ¼Ìõ¿î(ÈıÕßÏÕ)	LP½ÌÁ·³µÌØÔ¼Ìõ¿î(³µÉÏÈËÔ±ÔğÈÎÏÕ(³Ë¿Í))	"½á°¸±êÖ¾	"	"LP½»Ç¿ÏÕ--²Æ²ú	"	LP½»Ç¿ÏÕ(ËÀÍöÉË²Ğ)	LP½»Ç¿ÏÕ(Ò½ÁÆ·Ñ)	ÊÇ·ñÈËÉË°¸¼ş	ÊÇ·ñËÀÍö°¸¼ş	ÊÇ·ñÉË²Ğ°¸¼ş'  renshang_yj.unl > renshang_yj.txt
+#sed '1i\
+#æœºæ„ä»£ç 	æŠ•ä¿å•å·	ä¿å•å·	åº”äº¤ä¿è´¹	å·²èµšä¿è´¹	æ¸ é“ç±»å‹	æ¸ é“ä»£ç 	äº§å“æ¡æ¬¾	è½¦è¾†ç§ç±»	ä½¿ç”¨å¹´é™	åˆç™»æ—¥æœŸ	èµ·ä¿æ—¥æœŸ	ç»ˆä¿æ—¥æœŸ	è½¦ç‰Œ	å·ç‰Œåº•è‰²	å‘åŠ¨æœºå·	è½¦æ¶å·	å½’å±äººå‘˜	ç»åŠäººå‘˜	ä¸šåŠ¡æ¥æº	ä¿å•ç§ç±»	æ ¸ä¿æ–¹å¼	ç­¾å•æ—¥æœŸ	ä¿é™©é‡‘é¢	æ‰¿ä¿é™©ç§	åˆåŒå·	è½¦ç‰Œç§ç±»	ä½¿ç”¨æ€§è´¨	è¡Œé©¶é‡Œç¨‹	è½¦å‹ä»£ç 	è½¦å‹åç§°	æ–°è½¦è´­ç½®ä»·	å®é™…ä»·å€¼	è½½å®¢æ•°é‡	åº§ä½æ•°	è½½é‡	å¨ä½æ•°	æ’é‡	æ’é‡åˆ†ç±»	é€ä¿®ç 	é¡¹ç›®ä»£ç 	å•†ä¸šäº¤å¼ºæ ‡å¿—	ç”µé”€ä¸šåŠ¡ç±»å‹æ ‡è®°	æ–°ç»­ä¼ æ ‡å¿—	CBæœºåŠ¨è½¦äº¤é€šäº‹æ•…å¼ºåˆ¶è´£ä»»ä¿é™©	CBæœºåŠ¨è½¦æŸå¤±ä¿é™©	CBè½¦èº«åˆ’ç—•æŸå¤±é™©	CBç«ç¾ã€çˆ†ç‚¸ã€è‡ªç‡ƒæŸå¤±é™©æ¡æ¬¾	CBç»ç’ƒå•ç‹¬ç ´ç¢é™©	CBæŒ‡å®šä¿®ç†å‚ç‰¹çº¦æ¡æ¬¾	CBæ–°å¢åŠ è®¾å¤‡æŸå¤±ä¿é™©	CBå‘åŠ¨æœºç‰¹åˆ«æŸå¤±é™©	CBè½¦è¾†è‡ªç‡ƒæŸå¤±ä¿é™©	CBèµ·é‡ã€è£…å¸ã€æŒ–æ˜è½¦è¾†æŸå¤±æ‰©å±•æ¡æ¬¾	CBè½¦è¾†ç›—æŠ¢ä¿é™©	CBç¬¬ä¸‰è€…è´£ä»»ä¿é™©	CBè½¦ä¸Šäººå‘˜è´£ä»»é™©	CBè½¦ä¸Šä¹˜å®¢è´£ä»»é™©	CBè½¦ä¸Šè´§ç‰©è´£ä»»é™©	CBä¸è®¡å…èµ”ç‡(è½¦è¾†æŸå¤±é™©)	CBä¸è®¡å…èµ”ç‡(ä¸‰è€…é™©)	CBä¸è®¡å…èµ”ç‡(æœºåŠ¨è½¦ç›—æŠ¢é™©)	CBä¸è®¡å…èµ”ç‡(è½¦èº«åˆ’ç—•æŸå¤±é™©)	CBä¸è®¡å…èµ”ç‡(æ–°å¢åŠ è®¾å¤‡æŸå¤±ä¿é™©)	CBä¸è®¡å…èµ”ç‡(å‘åŠ¨æœºç‰¹åˆ«æŸå¤±é™©)	CBä¸è®¡å…èµ”ç‡ï¼ˆè½¦ä¸Šè´§ç‰©è´£ä»»é™©ï¼‰	CBä¸è®¡å…èµ”ç‡(è½¦ä¸Šäººå‘˜è´£ä»»é™©(å¸æœº))	CBä¸è®¡å…èµ”ç‡(è½¦ä¸Šäººå‘˜è´£ä»»é™©(ä¹˜å®¢))	CBæ•™ç»ƒè½¦ç‰¹çº¦æ¡æ¬¾(è½¦æŸé™©)	CBæ•™ç»ƒè½¦ç‰¹çº¦æ¡æ¬¾(ä¸‰è€…é™©)	CBæ•™ç»ƒè½¦ç‰¹çº¦æ¡æ¬¾(è½¦ä¸Šäººå‘˜è´£ä»»é™©(ä¹˜å®¢))	éªŒè½¦äºº	ç«‹æ¡ˆæ•°é‡	äººä¼¤æ¡ˆä»¶æ•°é‡	æ­»äº¡æ¡ˆä»¶æ•°é‡	ä¼¤æ®‹æ¡ˆä»¶æ•°é‡	æ€»èµ”ä»˜é‡‘é¢	LPæœºåŠ¨è½¦äº¤é€šäº‹æ•…å¼ºåˆ¶è´£ä»»ä¿é™©	LPæœºåŠ¨è½¦æŸå¤±ä¿é™©	LPè½¦èº«åˆ’ç—•æŸå¤±é™©	LPç«ç¾ã€çˆ†ç‚¸ã€è‡ªç‡ƒæŸå¤±é™©æ¡æ¬¾	LPç»ç’ƒå•ç‹¬ç ´ç¢é™©	LPæŒ‡å®šä¿®ç†å‚ç‰¹çº¦æ¡æ¬¾	LPæ–°å¢åŠ è®¾å¤‡æŸå¤±ä¿é™©	LPå‘åŠ¨æœºç‰¹åˆ«æŸå¤±é™©	LPè½¦è¾†è‡ªç‡ƒæŸå¤±ä¿é™©	LPèµ·é‡ã€è£…å¸ã€æŒ–æ˜è½¦è¾†æŸå¤±æ‰©å±•æ¡æ¬¾	LPè½¦è¾†ç›—æŠ¢ä¿é™©	LPç¬¬ä¸‰è€…è´£ä»»ä¿é™©	LPè½¦ä¸Šäººå‘˜è´£ä»»é™©	LPè½¦ä¸Šä¹˜å®¢è´£ä»»é™©	LPè½¦ä¸Šè´§ç‰©è´£ä»»é™©	LPä¸è®¡å…èµ”ç‡(è½¦è¾†æŸå¤±é™©)	LPä¸è®¡å…èµ”ç‡(ä¸‰è€…é™©)	LPä¸è®¡å…èµ”ç‡(æœºåŠ¨è½¦ç›—æŠ¢é™©)	LPä¸è®¡å…èµ”ç‡(è½¦èº«åˆ’ç—•æŸå¤±é™©)	LPä¸è®¡å…èµ”ç‡(æ–°å¢åŠ è®¾å¤‡æŸå¤±ä¿é™©)	LPä¸è®¡å…èµ”ç‡(å‘åŠ¨æœºç‰¹åˆ«æŸå¤±é™©)	LPä¸è®¡å…èµ”ç‡ï¼ˆè½¦ä¸Šè´§ç‰©è´£ä»»é™©ï¼‰	LPä¸è®¡å…èµ”ç‡(è½¦ä¸Šäººå‘˜è´£ä»»é™©(å¸æœº))	LPä¸è®¡å…èµ”ç‡(è½¦ä¸Šäººå‘˜è´£ä»»é™©(ä¹˜å®¢))	LPæ•™ç»ƒè½¦ç‰¹çº¦æ¡æ¬¾(è½¦æŸé™©)	LPæ•™ç»ƒè½¦ç‰¹çº¦æ¡æ¬¾(ä¸‰è€…é™©)	LPæ•™ç»ƒè½¦ç‰¹çº¦æ¡æ¬¾(è½¦ä¸Šäººå‘˜è´£ä»»é™©(ä¹˜å®¢))	"ç»“æ¡ˆæ ‡å¿—	"	"LPäº¤å¼ºé™©--è´¢äº§	"	LPäº¤å¼ºé™©(æ­»äº¡ä¼¤æ®‹)	LPäº¤å¼ºé™©(åŒ»ç–—è´¹)	æ˜¯å¦äººä¼¤æ¡ˆä»¶	æ˜¯å¦æ­»äº¡æ¡ˆä»¶	æ˜¯å¦ä¼¤æ®‹æ¡ˆä»¶'  
 
 
 
