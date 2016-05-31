@@ -111,6 +111,19 @@ merge into chengbao_qibao a using t_itemkind b on a.proposalno = b.proposalno an
 merge into chengbao_qibao a using t_itemkind b on a.proposalno = b.proposalno and b.kindcode = '050928' when matched then update set a.B050928= b.premium;--不计免赔率（车上人员责任险（司机））
 merge into chengbao_qibao a using t_itemkind b on a.proposalno = b.proposalno and b.kindcode = '050929' when matched then update set a.B050929= b.premium;--不计免赔率（车上人员责任险（乘客））
 
+--------------------------------------------- 
+merge into chengbao_qibao a using t_itemkind b on a.proposalno = b.proposalno and b.kindcode = '050100' when matched then update set a.B050100= b.premium;--机动车交通事故强制责任保险
+merge into chengbao_qibao a using t_itemkind b on a.proposalno = b.proposalno and b.kindcode = '050202' when matched then update set a.B050200= b.premium;--机动车损失保险
+merge into chengbao_qibao a using t_itemkind b on a.proposalno = b.proposalno and b.kindcode = '050501' when matched then update set a.B050500= b.premium;--盗抢险
+merge into chengbao_qibao a using t_itemkind b on a.proposalno = b.proposalno and b.kindcode = '050602' when matched then update set a.B050600= b.premium;--第三者责任保险
+merge into chengbao_qibao a using t_itemkind b on a.proposalno = b.proposalno and b.kindcode = '050711' when matched then update set a.B050701= b.premium;--车上人员责任险（司机）
+merge into chengbao_qibao a using t_itemkind b on a.proposalno = b.proposalno and b.kindcode = '050712' when matched then update set a.B050702= b.premium;--车上人员责任险（乘客）
+merge into chengbao_qibao a using t_itemkind b on a.proposalno = b.proposalno and b.kindcode = '050930' when matched then update set a.B050911= b.premium;--不计免赔率（车损险）
+merge into chengbao_qibao a using t_itemkind b on a.proposalno = b.proposalno and b.kindcode = '050931' when matched then update set a.B050912= b.premium;--不计免赔率（三者险）
+merge into chengbao_qibao a using t_itemkind b on a.proposalno = b.proposalno and b.kindcode = '050932' when matched then update set a.B050921= b.premium;--不计免赔率（机动车盗抢险）
+merge into chengbao_qibao a using t_itemkind b on a.proposalno = b.proposalno and b.kindcode = '050933' when matched then update set a.B050928= b.premium;--不计免赔率（车上人员责任险（司机））
+merge into chengbao_qibao a using t_itemkind b on a.proposalno = b.proposalno and b.kindcode = '050934' when matched then update set a.B050929= b.premium;--不计免赔率（车上人员责任险（乘客））
+
 
 
 -- --计算个险别已赚保费 ---
@@ -536,6 +549,21 @@ merge into chengbao_list2 a using t_bi_paid b on a.policyno = b.policyno and b.k
 merge into chengbao_list2 a using t_bi_paid b on a.policyno = b.policyno and b.kindcode = '050921' when matched then update set a.A050921= b.estipaid;--不计免赔率（机动车盗抢险）
 merge into chengbao_list2 a using t_bi_paid b on a.policyno = b.policyno and b.kindcode = '050928' when matched then update set a.A050928= b.estipaid;--不计免赔率（车上人员责任险（司机））
 merge into chengbao_list2 a using t_bi_paid b on a.policyno = b.policyno and b.kindcode = '050929' when matched then update set a.A050929= b.estipaid;--不计免赔率（车上人员责任险（乘客））
+
+
+-------------- 
+merge into chengbao_list2 a using t_bi_paid b on a.policyno = b.policyno and b.kindcode = '050100' when matched then update set a.A050100= b.estipaid;--机动车交通事故强制责任保险
+merge into chengbao_list2 a using t_bi_paid b on a.policyno = b.policyno and b.kindcode = '050202' when matched then update set a.A050200= b.estipaid;--机动车损失保险
+merge into chengbao_list2 a using t_bi_paid b on a.policyno = b.policyno and b.kindcode = '050501' when matched then update set a.A050500= b.estipaid;--盗抢险
+merge into chengbao_list2 a using t_bi_paid b on a.policyno = b.policyno and b.kindcode = '050602' when matched then update set a.A050600= b.estipaid;--第三者责任保险
+merge into chengbao_list2 a using t_bi_paid b on a.policyno = b.policyno and b.kindcode = '050711' when matched then update set a.A050701= b.estipaid;--车上人员责任险（司机）
+merge into chengbao_list2 a using t_bi_paid b on a.policyno = b.policyno and b.kindcode = '050712' when matched then update set a.A050702= b.estipaid;--车上人员责任险（乘客）
+merge into chengbao_list2 a using t_bi_paid b on a.policyno = b.policyno and b.kindcode = '050930' when matched then update set a.A050911= b.estipaid;--不计免赔率（车损险）
+merge into chengbao_list2 a using t_bi_paid b on a.policyno = b.policyno and b.kindcode = '050931' when matched then update set a.A050912= b.estipaid;--不计免赔率（三者险）
+merge into chengbao_list2 a using t_bi_paid b on a.policyno = b.policyno and b.kindcode = '050932' when matched then update set a.A050921= b.estipaid;--不计免赔率（机动车盗抢险）
+merge into chengbao_list2 a using t_bi_paid b on a.policyno = b.policyno and b.kindcode = '050933' when matched then update set a.A050928= b.estipaid;--不计免赔率（车上人员责任险（司机））
+merge into chengbao_list2 a using t_bi_paid b on a.policyno = b.policyno and b.kindcode = '050934' when matched then update set a.A050929= b.estipaid;--不计免赔率（车上人员责任险（乘客））
+
 
 ----------------交强险赔款再细分------------------------
 --select * from chengbao_list2 where policyno = 'PDAT20144418T000009987';
