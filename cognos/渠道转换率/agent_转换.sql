@@ -5,7 +5,7 @@ then a.sumpremium
 else a.sumpremium*(today-a.startdate+1)/(a.enddate-a.startdate+1)
 end premium_yz ,
 ---截止提数时间已赚签单保费
-e.agenttype, a.agentcode,
+e.agenttype, a.agentcode,e.agentname,
  b.clausetype,  b.carkindcode, b.useyears,  b.enrolldate,  --初登日期
        a.startdate,   --起保日期
        a.enddate,     --终保日期
@@ -25,7 +25,6 @@ e.agenttype, a.agentcode,
        a.riskcode,    --承保险种
        a.contractno,  --团单号/合同号
        licensetype,   --号牌种类
-       --vinno,
        usenaturecode, --使用性质
        runmiles,
        modelcode,     --车型代码
@@ -46,6 +45,7 @@ e.agenttype, a.agentcode,
         null::varchar(200) oldagentname,
         null::varchar(60) nextagentcode,
         null::varchar(200) nextagentname
+		
 from prpcmain a,prpcitem_car  b,
 outer gd4400dms3gdb:prpdagent e
 where 1=1
@@ -104,6 +104,18 @@ on a.nextproposalno = b.proposalno and xbflag = '被续保'
 when matched then update set a.nextagentcode = b.agentcode
 ;
 }
+
+merge into chengbao_qibao2 a
+using prpdagent b
+on a.nextagentcode = b.agentcode
+when matched then update set a.nextagentname = b.agentname;
+
+
+merge into chengbao_qibao2 a
+using prpdagent b
+on a.oldagentcode = b.agentcode
+when matched then update set a.oldagentname = b.agentname;
+
 unload to 'agentzhuanhuan.unl'
 select * from chengbao_qibao2
 ;
